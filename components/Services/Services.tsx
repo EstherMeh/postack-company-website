@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Check, Code, Globe, Smartphone, Database, ShoppingCart, Server } from "lucide-react"
-import ServiceRequestForm from "@/app/api/forms/service-request-form/route";
+import ServiceRequestForm from "./ServiceRequestForm";
 
 export default function Services() {
   const [isFormOpen, setIsFormOpen] = useState(false)
