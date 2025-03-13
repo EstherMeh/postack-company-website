@@ -15,7 +15,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const contactEntry = await prisma.HostingRequest.create({
+    const contactEntry = await prisma.hostingRequest.create({
       data: {
         email: formData.email,
         phoneNumber: formData.phone, // Ensure this matches your form data
