@@ -1,4 +1,5 @@
 import React from "react";
+import Image from 'next/image';
 
 const teamMembers = [
   { name: "Alex Johnson", role: "CEO & Founder", image: "/images/alex.jpg" },
@@ -44,4 +45,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default About; 

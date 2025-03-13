@@ -34,12 +34,12 @@ const ContactForm: NextPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData), // ✅ FIXED: Passing correct state data
+        body: JSON.stringify(formData), 
       });
 
       if (response.ok) {
         console.log("Form submitted successfully!");
-        setFormData({ name: "", email: "", subject: "", message: "" }); // ✅ Reset form on success
+        setFormData({ name: "", email: "", subject: "", message: "" }); 
       } else {
         console.log("Error submitting form:", await response.json());
       }
@@ -106,7 +106,7 @@ const ContactForm: NextPage = () => {
                   required
                 ></textarea>
               </div>
-              <button type="submit" className="w-full bg-pink-700 text-white py-2 rounded-md">
+              <button type="submit" className="w-full bg-blue-700 text-white py-2 rounded-md">
                 Send Message
               </button>
             </form>

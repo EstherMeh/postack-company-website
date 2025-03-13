@@ -75,6 +75,40 @@ const HostingServiceRequestForm = ({ selectedPackage, onClose }: HostingServiceR
             <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full border px-3 py-2 rounded-md" />
           </div>
 
+          {/* Dropdown for Hosting Requirements */}
+          <div>
+            <label className="block font-semibold">Hosting Requirement</label>
+            <select
+              value={hostingRequirement}
+              onChange={(e) => setHostingRequirement(e.target.value)}
+              className="w-full border px-3 py-2 rounded-md"
+            >
+              <option value="">Select Requirement</option>
+              {hostingRequirements.map((req) => (
+                <option key={req} value={req}>
+                  {req}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Dropdown for Technical Specifications */}
+          <div>
+            <label className="block font-semibold">Technical Specifications</label>
+            <select
+              value={technicalSpecs}
+              onChange={(e) => setTechnicalSpecs(e.target.value)}
+              className="w-full border px-3 py-2 rounded-md"
+            >
+              <option value="">Select Specification</option>
+              {technicalSpecifications.map((spec) => (
+                <option key={spec} value={spec}>
+                  {spec}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="flex justify-end space-x-2">
             <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-500 text-white rounded-md">Cancel</button>
             <button type="submit" disabled={loading} className="px-4 py-2 bg-blue-900 text-white rounded-md">
@@ -88,6 +122,3 @@ const HostingServiceRequestForm = ({ selectedPackage, onClose }: HostingServiceR
 };
 
 export default HostingServiceRequestForm;
-
-
-
