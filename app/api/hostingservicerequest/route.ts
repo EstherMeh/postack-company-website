@@ -28,6 +28,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'Hosting Request form submitted successfully!', data: contactEntry });
   } catch (error) {
     console.error("Error in handling form submission:", error); // Log the error
-    return NextResponse.json({ message: 'Error submitting form!', details: error.message }, { status: 500 });
+    return NextResponse.json({ message: 'Error submitting form!', details: error }, { status: 500 });
   }
 }
