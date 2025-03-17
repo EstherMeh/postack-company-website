@@ -65,16 +65,16 @@ const HomePage = () => {
           "url": "https://postacksolutions.com",
           "logo": "https://postacksolutions.com/logo.png",
           "sameAs": [
-            "https://www.facebook.com/yourpage",
-            "https://twitter.com/yourprofile",
-            "https://www.linkedin.com/in/yourprofile"
+        "https://www.facebook.com/yourpage",
+        "https://twitter.com/yourprofile",
+        "https://www.linkedin.com/in/yourprofile"
           ],
           "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+1-800-555-5555",
-            "contactType": "Customer Service",
-            "areaServed": "US",
-            "availableLanguage": "English"
+        "@type": "ContactPoint",
+        "telephone": "+1-800-555-5555",
+        "contactType": "Customer Service",
+        "areaServed": "US",
+        "availableLanguage": "English"
           }
         }
         ` }} />
@@ -83,6 +83,7 @@ const HomePage = () => {
         <meta name="description" content="Learn more about POSTACK SOLUTIONS, our team, mission, and values." />
         <meta name="keywords" content="web hosting,cloud services website development, postack Solutions, secure hosting, scalable servers" />
         <link rel="icon" href="/favicon.ico" />
+        <script src="http://localhost:8097" async />
       </Head>
       <div className="overflow-hidden">
         <div>
@@ -91,11 +92,11 @@ const HomePage = () => {
         <div>
           <Hero />
         </div>
-        <div id="services">
-          <Services />
-        </div>
         <div id="about-us">
           <AboutUs />
+        </div>
+        <div id="services">
+          <Services />
         </div>
         <div id="hosting">
           <Hosting />
