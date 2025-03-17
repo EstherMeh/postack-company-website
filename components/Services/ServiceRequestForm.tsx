@@ -53,7 +53,7 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
   // Handle form submission to database
   const handleSubmit = async () => {
     try {
-      const response = await fetch("/api/forms/services", {
+      const response = await fetch("/api/services", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
