@@ -1,9 +1,7 @@
-"use client";
-import React, { useState } from "react";
+import Swal from "sweetalert2";
+import React, { useState, useEffect } from "react";
 import type { NextPage } from "next";
-import { FaTwitter, FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
 
-// Define an interface for form data
 interface FormData {
   name: string;
   email: string;
@@ -19,27 +17,52 @@ const ContactForm: NextPage = () => {
     message: "",
   });
 
-  // Handle input change
+  const [isClient, setIsClient] = useState(false); // State to handle client-side rendering
+
+  useEffect(() => {
+    setIsClient(true); // Ensure this only runs client-side
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       const response = await fetch("/api/forms/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData), // ✅ FIXED: Passing correct state data
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         console.log("Form submitted successfully!");
-        setFormData({ name: "", email: "", subject: "", message: "" }); // ✅ Reset form on success
+        const emailResponse = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            access_key: "2cb693be-60b4-46fd-b5bf-264963056c6e",
+            ...formData,
+          }),
+        });
+
+        if (emailResponse.ok) {
+          console.log("Email sent successfully!");
+          Swal.fire({
+            title: "Success!",
+            text: "Request Submitted Successfully!",
+            icon: "success",
+          });
+          setFormData({ name: "", email: "", subject: "", message: "" });
+        } else {
+          console.log("Error submitting email:", await emailResponse.json());
+        }
       } else {
         console.log("Error submitting form:", await response.json());
       }
@@ -48,14 +71,15 @@ const ContactForm: NextPage = () => {
     }
   };
 
+  if (!isClient) {
+    return null; // Do not render the form until client-side JS has loaded
+  }
+
   return (
     <div className="bg-blue-100 min-h-screen flex justify-center items-center">
       <div className="max-w-5xl mx-auto px-6 py-12">
-        {/* Heading */}
         <h2 className="text-3xl font-bold text-center mb-8">Get in Touch</h2>
-
         <div className="grid md:grid-cols-3 gap-8">
-          {/* Contact Form */}
           <div className="md:col-span-2 bg-white p-6 rounded-lg shadow-md">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -106,38 +130,19 @@ const ContactForm: NextPage = () => {
                   required
                 ></textarea>
               </div>
-              <button type="submit" className="w-full bg-pink-700 text-white py-2 rounded-md">
+              <button type="submit" className="w-full bg-blue-700 text-white py-2 rounded-md">
                 Send Message
               </button>
             </form>
           </div>
+          <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center text-center w-80 mx-auto">
+  <h3 className="text-xl font-semibold mb-4">Contact Info</h3>
+  <p><strong>Office Location:</strong> 123 Main Street, City, Country</p>
+  <p><strong>Email:</strong> contact@yourcompany.com</p>
+  <p><strong>Phone:</strong> +123 456 7890</p>
+</div>
 
-          {/* Contact Info Box */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4">Contact Info</h3>
-            <p><strong>Office Location:</strong> 123 Main Street, City, Country</p>
-            <p><strong>Email:</strong> contact@yourcompany.com</p>
-            <p><strong>Phone:</strong> +123 456 7890</p>
 
-            {/* Socials */}
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold mb-2">Follow Us</h3>
-              <div className="space-y-2">
-                <a href="#" className="flex items-center text-blue-500">
-                  <FaTwitter className="mr-2" /> Twitter
-                </a>
-                <a href="#" className="flex items-center text-blue-700">
-                  <FaFacebook className="mr-2" /> Facebook
-                </a>
-                <a href="#" className="flex items-center text-blue-600">
-                  <FaLinkedin className="mr-2" /> LinkedIn
-                </a>
-                <a href="#" className="flex items-center text-blue-600">
-                  <FaInstagram className="mr-2" /> Instagram
-                </a>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

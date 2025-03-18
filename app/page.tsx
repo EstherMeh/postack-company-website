@@ -57,34 +57,38 @@ const HomePage = () => {
   return (
     <>
       <Head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `
-        {
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "name": "POSTACK SOLUTIONS",
-          "url": "https://postacksolutions.com",
-          "logo": "https://postacksolutions.com/logo.png",
-          "sameAs": [
-        "https://www.facebook.com/yourpage",
-        "https://twitter.com/yourprofile",
-        "https://www.linkedin.com/in/yourprofile"
-          ],
-          "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+1-800-555-5555",
-        "contactType": "Customer Service",
-        "areaServed": "US",
-        "availableLanguage": "English"
-          }
-        }
-        ` }} />
+<script type="application/ld+json">
+dangerouslySetInnerHTML={{
+  __html: JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "POSTACK SOLUTIONS",
+  "url": "https://postacksolutions.com",
+  "logo": "https://postacksolutions.com/logo.png",  // Replace with your logo URL
+  "sameAs": [
+    "https://www.facebook.com/yourpage",  // Replace with your social media links
+    "https://twitter.com/yourprofile",
+    "https://www.linkedin.com/in/yourprofile"
+  ],
+  "contactPoint": [
+    {
+    "@type": "ContactPoint",
+    "telephone": "+1-800-555-5555",  // Replace with your contact number
+    "contactType": "Customer Service",
+    "areaServed": "US",
+    "availableLanguage": "English"
+    }
+  ]
+}),
+}}
+</script>
         <title>POSTACK SOLUTIONS - Home</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Learn more about POSTACK SOLUTIONS, our team, mission, and values." />
         <meta name="keywords" content="web hosting,cloud services website development, postack Solutions, secure hosting, scalable servers" />
         <link rel="icon" href="/favicon.ico" />
-        <script src="http://localhost:8097" async />
       </Head>
+
       <div className="overflow-hidden">
         <div>
           <Navbar />
