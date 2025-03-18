@@ -15,7 +15,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const contactEntry = await prisma.HostingRequest.create({
+    const contactEntry = await prisma.hostingRequest.create({
       data: {
         email: formData.email,
         phoneNumber: formData.phone, // Ensure this matches your form data
@@ -28,6 +28,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'Hosting Request form submitted successfully!', data: contactEntry });
   } catch (error) {
     console.error("Error in handling form submission:", error); // Log the error
-    return NextResponse.json({ message: 'Error submitting form!', details: error.message }, { status: 500 });
+    return NextResponse.json({ message: 'Error submitting form!', details: error }, { status: 500 });
   }
 }

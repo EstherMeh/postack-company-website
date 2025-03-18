@@ -15,34 +15,33 @@ datasource db {
 
 // Contact form submission model
 model Contact {
-  id       Int    @id @default(autoincrement())
-  name     String
-  email    String
-  subject  String
-  message  String
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  subject   String
+  message   String
   createdAt DateTime @default(now())
 }
 
 // Hosting service request model
 model HostingRequest {
-  id                  Int      @id @default(autoincrement())
-  selectedPackage     String
-  email               String
-  phoneNumber         String
-  hostingRequirement  String
-  technicalSpecs      String
-  createdAt           DateTime @default(now())
+  id                 Int      @id @default(autoincrement())
+  selectedPackage    String
+  email              String
+  phoneNumber        String
+  hostingRequirement String
+  technicalSpecs     String
+  createdAt          DateTime @default(now())
 }
 
 // Development services request model
 model DevelopmentServices {
-  id                  Int      @id @default(autoincrement())
-  clientName          String
-  clientEmail         String
-  serviceType         String
-  projectRequirements String
-  budgetRange         String
+  id                   Int      @id @default(autoincrement())
+  clientName           String
+  clientEmail          String
+  serviceType          String
+  projectRequirements  String
+  budgetRange          String
   timelineExpectations String
-  createdAt           DateTime @default(now())
+  createdAt            DateTime @default(now())
 }
-
