@@ -1,11 +1,12 @@
 import React from "react";
 import Image from 'next/image';
+import { FaHandsHelping, FaLightbulb, FaUsers, FaShieldAlt } from 'react-icons/fa'; // Icons for values
 
 const teamMembers = [
-  { name: "Alex Johnson", role: "CEO & Founder", image: "/images/alex.jpg" },
-  { name: "Samantha Lee", role: "CTO & Lead Developer", image: "/images/samantha.jpg" },
-  { name: "Michael Smith", role: "Head of Customer Support", image: "/images/michael.jpg" },
-  { name: "Emily Davis", role: "Marketing Manager", image: "/images/emily.jpg" },
+  { name: "Yamikani Kalonge", role: "Managing Director", image: "/images/Yamikani.jpg" },
+  { name: "Chipo Mukwavi", role: "Marketing Manager", image: "/images/chipo.jpg" },
+    { name: "Mwewa Kalonge", role: "CTO and lead developer", image: "/images/mwewa.jpg" },
+   { name: "Mwai Banda", role: "Full Stack Developer", image: "/images/mwai.jpg" },
 ];
 
 const About = () => {
@@ -27,6 +28,33 @@ const About = () => {
           </p>
         </div>
 
+        {/* Company Values & Culture */}
+        <div className="relative z-10 py-20 text-center bg-gray-800">
+          <h2 className="text-2xl font-semibold text-blue-300 mb-6">Our Values & Culture</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 px-8">
+            <div className="bg-gray-900 text-white shadow-md rounded-lg p-6">
+              <FaShieldAlt className="text-blue-400 text-4xl mx-auto mb-4" />
+              <h3 className="text-lg font-semibold">Security First</h3>
+              <p className="text-gray-400">We prioritize data security and privacy to ensure our clients' trust.</p>
+            </div>
+            <div className="bg-gray-900 text-white shadow-md rounded-lg p-6">
+              <FaHandsHelping className="text-green-400 text-4xl mx-auto mb-4" />
+              <h3 className="text-lg font-semibold">Customer Commitment</h3>
+              <p className="text-gray-400">We provide top-tier support and assistance for all our clients.</p>
+            </div>
+            <div className="bg-gray-900 text-white shadow-md rounded-lg p-6">
+              <FaLightbulb className="text-yellow-400 text-4xl mx-auto mb-4" />
+              <h3 className="text-lg font-semibold">Innovation</h3>
+              <p className="text-gray-400">We embrace new technologies to offer the best hosting solutions.</p>
+            </div>
+            <div className="bg-gray-900 text-white shadow-md rounded-lg p-6">
+              <FaUsers className="text-red-400 text-4xl mx-auto mb-4" />
+              <h3 className="text-lg font-semibold">Teamwork</h3>
+              <p className="text-gray-400">We believe in collaboration and mutual growth within our team.</p>
+            </div>
+          </div>
+        </div>
+
         {/* Meet Our Team */}
         <div className="relative z-10 py-20 text-center bg-gray-900">
           <h2 className="text-2xl font-semibold text-blue-300 mb-6">Meet Our Team</h2>
@@ -45,4 +73,4 @@ const About = () => {
   );
 };
 
-export default About; 
+export default About;
