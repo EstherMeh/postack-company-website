@@ -82,7 +82,7 @@ dangerouslySetInnerHTML={{
 }),
 }}
 </script>
->>>>>>> Stashed changes
+>>>>
         <title>POSTACK SOLUTIONS - Home</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Learn more about POSTACK SOLUTIONS, our team, mission, and values." />
@@ -97,11 +97,11 @@ dangerouslySetInnerHTML={{
         <div>
           <Hero />
         </div>
-        <div id="services">
-          <Services />
-        </div>
         <div id="about-us">
           <AboutUs />
+        </div>
+        <div id="services">
+          <Services />
         </div>
         <div id="hosting">
           <Hosting />
