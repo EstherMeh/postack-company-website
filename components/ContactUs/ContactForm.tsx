@@ -18,6 +18,8 @@ const ContactForm: NextPage = () => {
   });
 
   const [isClient, setIsClient] = useState(false); // State to handle client-side rendering
+  const [loading, setLoading] = useState(false);  // ✅ Define setLoading
+const [error, setError] = useState<string | null>(null);  // ✅ Define setError
 
   useEffect(() => {
     setIsClient(true); // Ensure this only runs client-side
@@ -27,51 +29,68 @@ const ContactForm: NextPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("/api/forms/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
 
-      if (response.ok) {
-        console.log("Form submitted successfully!");
-        const emailResponse = await fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            access_key: "2cb693be-60b4-46fd-b5bf-264963056c6e",
-            ...formData,
-          }),
-        });
+  try {
+    console.log("📤 Sending form data:", formData);
 
-        if (emailResponse.ok) {
-          console.log("Email sent successfully!");
-          Swal.fire({
-            title: "Success!",
-            text: "Request Submitted Successfully!",
-            icon: "success",
-          });
-          setFormData({ name: "", email: "", subject: "", message: "" });
-        } else {
-          console.log("Error submitting email:", await emailResponse.json());
-        }
-      } else {
-        console.log("Error submitting form:", await response.json());
-      }
-    } catch (error) {
-      console.error("Network error:", error);
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Error submitting form:", errorData);
+      setError(errorData.message || "Failed to submit the form. Please try again.");
+      return;
     }
-  };
 
-  if (!isClient) {
+    console.log("Database submission successful!");
+
+    // Send Email Notification
+    const emailResponse = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        access_key: "2cb693be-60b4-46fd-b5bf-264963056c6e",
+        ...formData,
+      }),
+    });
+
+    if (!emailResponse.ok) {
+      throw new Error(`Email forwarding error: ${await emailResponse.text()}`);
+    }
+
+    console.log("📩 Email sent successfully!");
+    
+    await Swal.fire({
+      title: "Success!",
+      text: "Request Submitted Successfully!",
+      icon: "success",
+    });
+
+    setFormData({ name: "", email: "", subject: "", message: "" });
+
+  } catch (error: any) {
+    console.error("🚨 Error:", error.message);
+    setError(error.message);
+
+    await Swal.fire({
+      title: "Error!",
+      text: error.message || "Failed to submit form. Please try again.",
+      icon: "error",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
+if (!isClient) {
     return null; // Do not render the form until client-side JS has loaded
   }
 
@@ -136,17 +155,14 @@ const ContactForm: NextPage = () => {
             </form>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center text-center w-80 mx-auto">
-  <h3 className="text-xl font-semibold mb-4">Contact Info</h3>
-  <p><strong>Office Location:</strong> 123 Main Street, City, Country</p>
-  <p><strong>Email:</strong> contact@yourcompany.com</p>
-  <p><strong>Phone:</strong> +123 456 7890</p>
-</div>
-
-
+            <h3 className="text-xl font-semibold mb-4">Contact Info</h3>
+            <p><strong>Office Location:</strong> 123 Main Street, City, Country</p>
+            <p><strong>Email:</strong> contact@yourcompany.com</p>
+            <p><strong>Phone:</strong> +123 456 7890</p>
+          </div>
         </div>
       </div>
     </div>
-  );
+);
 };
-
 export default ContactForm;

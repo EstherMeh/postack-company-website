@@ -74,7 +74,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   try {
     // Step 1: Submit to Database
-    const response = await fetch("/api/forms/hostingservicerequest", {
+    const response = await fetch("/api/hostingservicerequest", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
