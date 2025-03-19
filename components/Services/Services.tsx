@@ -95,7 +95,7 @@ export default function Services() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8" id="services">
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-[#1e3a8a] mb-4">Development Services</h1>
         <p className="text-lg text-gray-600 max-w-3xl mx-auto">

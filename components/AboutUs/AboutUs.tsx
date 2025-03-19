@@ -10,7 +10,7 @@ const teamMembers = [
 const About = () => {
   return (
     <>
-      <section className="relative w-full min-h-screen text-white">
+      <section className="relative w-full min-h-screen text-white" id="aboutus">
         {/* Background Animation */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-fixed animate-bg-move z-0"

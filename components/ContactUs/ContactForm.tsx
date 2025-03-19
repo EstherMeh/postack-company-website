@@ -49,7 +49,7 @@ const ContactForm: NextPage = () => {
   };
 
   return (
-    <div className="bg-blue-100 min-h-screen flex justify-center items-center">
+    <div className="bg-blue-100 min-h-screen flex justify-center items-center" id="contactus">
       <div className="max-w-5xl mx-auto px-6 py-12">
         {/* Heading */}
         <h2 className="text-3xl font-bold text-center mb-8">Get in Touch</h2>
