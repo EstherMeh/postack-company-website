@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/swc-win32-x64-msvc": "^15.2.1",
     "@prisma/client": "^6.4.1",
     "daisyui": "^4.12.24",
     "lucide-react": "^0.476.0",
