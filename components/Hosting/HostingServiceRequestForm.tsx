@@ -97,7 +97,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         Accept: "application/json",
       },
       body: JSON.stringify({
-        access_key: "2cb693be-60b4-46fd-b5bf-264963056c6e",
+        access_key: process.env.NEXT_PUBLIC_ACCESS_KEY || "",
         ...formData,
       }),
     });
