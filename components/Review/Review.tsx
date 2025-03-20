@@ -27,7 +27,7 @@ const Review = () => {
   return (
     <div className='pt-16 pd-16'>
         <h1 className='mt-6 text-2xl md:text-3xl capitalized font-bold text-center'>
-            What Clients Say About Our Hosting Services
+            What Clients Say About Our Services
             </h1>
             <div className='bg-blue-900 mt-20 w-[90%] md:w-[80%] max-w-5xl mx-auto px-6 py-12'>
                 <Carousel
@@ -37,10 +37,10 @@ const Review = () => {
                 infinite responsive={responsive} 
                 showDots
                 >
-                    <ReviewCard name='Jessy Leng' image='/images/C1.png'/>
-                    <ReviewCard name='Ace maloui' image='/images/c2.png'/>
-                    <ReviewCard name='Mambi tekii' image='/images/c3.png'/>
-                    <ReviewCard name='Melly shaku' image='/images/c4.png'/>
+                    <ReviewCard name='Jessy Leng' image='/images/boy.jpeg'/>
+                    <ReviewCard name='Ace maloui' image='/images/gent2.jpeg'/>
+                    <ReviewCard name='Mambi tekii' image='/images/gil2.jpeg'/>
+                    <ReviewCard name='Melly shaku' image='/images/girl.jpeg'/>
                 </Carousel>
             </div>
     </div>

@@ -1,55 +1,133 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      setScrolled(offset > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
-    <div className='navbar bg-neutral text-neutral-content'>
-      <div className="navbar-start">
-      <div className="w-10 rounded-full">
-      <Link href="https://www.f6s.com/postack-solutions" target='_blank'>
-        <Image src="/Postack_logo.jpeg" alt="Postack Solutions" width={40} height={40}/>
-      </Link>
-    </div>
-      <div className="dropdown">
-      <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4 6h16M4 12h8m-8 6h16" />
-        </svg>
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? 'bg-slate-800 shadow-md' : 'bg-transparent'
+      }`}
+    >
+      <div className="container mx-auto flex items-center justify-between px-2 py-2">
+        {/* Logo */}
+        <div className="flex items-center gap-3">
+          <Link href="/">
+            <Image
+              src="/Postack_logo.jpeg"
+              alt="Postack Solutions"
+              width={50}
+              height={50}
+              className="cursor-pointer"
+            />
+          </Link>
+          <span
+            className={`text-xl font-bold transition-colors duration-300 ${
+              scrolled ? 'text-white' : 'text-white'
+            }`}
+          >
+            Postack Solutions
+          </span>
+        </div>
+
+        {/* Hamburger Menu Icon */}
+        <div
+          className={`lg:hidden text-2xl cursor-pointer transition-colors duration-300 ${
+            scrolled ? 'text-gray-800' : 'text-white'
+          }`}
+          onClick={toggleMenu}
+        >
+          {isOpen ? <FaTimes /> : <FaBars />}
+        </div>
+
+        {/* Nav Links */}
+        <ul
+          className={`fixed top-0 left-0 w-full h-full bg-blue flex flex-col items-center justify-center gap-6 text-lg transition-transform duration-300 lg:static lg:flex lg:flex-row lg:gap-8 lg:bg-transparent lg:h-auto lg:w-auto ${
+            isOpen ? 'translate-y-0' : '-translate-y-full lg:translate-y-0'
+          }`}
+        >
+          <li>
+            <Link
+              href="#aboutus"
+              className="text-gray-200 hover:text-blue-100 transition-colors duration-300"
+              onClick={() => {
+                closeMenu(); // Close the menu immediately
+              }}
+            >
+              About Us
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="#services"
+              className="text-gray-200 hover:text-blue-100 transition-colors duration-300"
+              onClick={() => {
+                closeMenu(); // Close the menu immediately
+              }}
+            >
+              Services
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="#hosting"
+              className="text-gray-200 hover:text-blue-100 transition-colors duration-300"
+              onClick={() => {
+                closeMenu(); // Close the menu immediately
+              }}
+            >
+              Hosting
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="#contactus"
+              className="text-gray-200 hover:text-blue-100 transition-colors duration-300"
+              onClick={() => {
+                closeMenu(); // Close the menu immediately
+              }}
+            >
+              Contact Us
+            </Link>
+          </li>
+        </ul>
+
+        {/* Call-to-Action Button */}
+        <div className="hidden lg:flex">
+          <a
+            href="https://www.f6s.com/postack-solutions"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 btn btn-primary text-white hover:bg-blue-700 transition-all duration-300"
+          >
+            Get started
+          </a>
+        </div>
       </div>
-      <ul
-        tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-32 p-2 shadow text-base-content">
-        <li><a href='#'>Services</a></li>
-        <li><a href='#'>Hosting</a></li>
-        <li><a href='#'>Contact</a></li>
-        <li><a href='#'>About Us</a></li>
-      </ul>
-    </div>
-    <a className="btn btn-ghost text-xl" href='https://www.f6s.com/postack-solutions' target='_blank'>Postack Solutions</a>
-  </div>
-  <div className="navbar-center hidden lg:flex">
-    <ul className="menu menu-horizontal px-1">
-      <li><a href='#'>Services</a></li>
-      <li><a href='#'>Hosting</a></li>
-      <li><a href='#'>Contact</a></li>
-      <li><a href='#'>About Us</a></li>
-    </ul>
-  </div>
-  <div className="navbar-end">
-    <a className="btn btn-primary">Learn more</a>
-  </div>
-    </div>
-  )
-}
+    </nav>
+  );
+};
 
 export default Navbar;
