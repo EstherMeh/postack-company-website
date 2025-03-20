@@ -5,3 +5,7 @@
 .animate-bg-move {
  animation: bgMove 15s infinite alternate linear;
 }
+
+html {
+    scroll-behavior: smooth;
+}
