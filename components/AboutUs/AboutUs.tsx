@@ -57,22 +57,28 @@ const About = () => {
             className="max-w-4xl mx-auto"
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-6">About POSTACK SOLUTIONS</h1>
+            <div className="bg-blue-900 bg-opacity-60 p-6 rounded-lg mb-5">
             <p className="text-lg md:text-xl mb-8">
-              POSTACK SOLUTIONS is a leading technology company in Zambia, pioneering innovative digital solutions for businesses and individuals. Founded in 2020, we have grown from a hosting provider to a comprehensive digital services company.
+              POSTACK SOLUTIONS is a leading technology company in Zambia, pioneering innovative digital solutions for businesses and individuals. Founded in 2023, we have grown from a hosting provider to a comprehensive digital services company.
             </p>
+            </div>
 
             <div className="grid md:grid-cols-2 gap-8 text-left mb-12">
               <div>
+                <div className="bg-blue-900 bg-opacity-60 p-6 rounded-lg">
                 <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
                 <p className="text-gray-200">
                   To empower African businesses with cutting-edge digital solutions that drive growth, efficiency, and innovation in the digital age.
                 </p>
+                </div>
               </div>
               <div>
+              <div className="bg-blue-900 bg-opacity-60 p-6 rounded-lg">
                 <h2 className="text-2xl font-semibold mb-4">Our Vision</h2>
                 <p className="text-gray-200">
                   To become Africa&apos;s leading technology solutions provider, setting the standard for digital excellence and innovation.
                 </p>
+                </div>
         </div>
             </div>
 
@@ -80,15 +86,15 @@ const About = () => {
             <div className="mb-12">
               <h2 className="text-2xl font-semibold mb-6">Our Core Values</h2>
               <div className="grid md:grid-cols-3 gap-6">
-                <div className="bg-blue-900 bg-opacity-50 p-6 rounded-lg">
+                <div className="bg-blue-900 bg-opacity-60 p-6 rounded-lg">
                   <h3 className="text-xl font-semibold mb-2">Innovation</h3>
                   <p>Constantly pushing boundaries to deliver cutting-edge solutions</p>
                 </div>
-                <div className="bg-blue-900 bg-opacity-50 p-6 rounded-lg">
+                <div className="bg-blue-900 bg-opacity-60 p-6 rounded-lg">
                   <h3 className="text-xl font-semibold mb-2">Reliability</h3>
                   <p>Delivering consistent, high-quality service you can count on</p>
                 </div>
-                <div className="bg-blue-900 bg-opacity-50 p-6 rounded-lg">
+                <div className="bg-blue-900 bg-opacity-60 p-6 rounded-lg">
                   <h3 className="text-xl font-semibold mb-2">Customer Focus</h3>
                   <p>Your success is our priority, every step of the way</p>
                 </div>
