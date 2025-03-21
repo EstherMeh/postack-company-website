@@ -71,12 +71,12 @@ export async function POST(req: Request) {
     };
 
     // Handle specific Prisma error for duplicate entries
-    if (error instanceof Error && "code" in error && (error as any).code === "P2002") {
-      return NextResponse.json(
-        { message: "Duplicate entry detected. Please use a unique email or phone number." },
-        { status: 400 }
-      );
-    }
+   if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+  return NextResponse.json(
+    { message: "Duplicate entry detected. Please use a unique email or phone number." },
+    { status: 400 }
+  );
+}
 
     // Return a generic error message for other errors
     return NextResponse.json(errorMessage, { status: 500 });
