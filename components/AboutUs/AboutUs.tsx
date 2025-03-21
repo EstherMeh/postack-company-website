@@ -5,8 +5,8 @@ import { FaHandsHelping, FaLightbulb, FaUsers, FaShieldAlt } from 'react-icons/f
 const teamMembers = [
   { name: "Yamikani Kalonge", role: "Managing Director", image: "/images/Yamikani.jpg" },
   { name: "Chipo Mukwavi", role: "Marketing Manager", image: "/images/chipo.jpg" },
-    { name: "Mwewa Kalonge", role: "CTO and lead developer", image: "/images/mwewa.jpg" },
-   { name: "Mwai Banda", role: "Full Stack Developer", image: "/images/mwai.jpg" },
+  { name: "Mwewa Kalonge", role: "CTO and lead developer", image: "/images/mwewa.jpg" },
+  { name: "Mwai Banda", role: "Full Stack Developer", image: "/images/mwai.jpg" },
 ];
 
 const About = () => {
@@ -35,7 +35,7 @@ const About = () => {
             <div className="bg-gray-900 text-white shadow-md rounded-lg p-6">
               <FaShieldAlt className="text-blue-400 text-4xl mx-auto mb-4" />
               <h3 className="text-lg font-semibold">Security First</h3>
-              <p className="text-gray-400">We prioritize data security and privacy to ensure our clients' trust.</p>
+              <p className="text-gray-400">We prioritize data security and privacy to ensure our clients&apos; trust.</p>
             </div>
             <div className="bg-gray-900 text-white shadow-md rounded-lg p-6">
               <FaHandsHelping className="text-green-400 text-4xl mx-auto mb-4" />
