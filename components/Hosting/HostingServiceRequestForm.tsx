@@ -37,7 +37,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   });
 
   let hasError = false;
-  let errors = { email: "", phone: "", hostingRequirement: "", technicalSpecs: "" };
+  const errors = { email: "", phone: "", hostingRequirement: "", technicalSpecs: "" };  // Use const
 
   if (!email) {
     errors.email = "Email is required.";
@@ -128,6 +128,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     setLoading(false);
   }
 };
+
 
 return (
   <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">

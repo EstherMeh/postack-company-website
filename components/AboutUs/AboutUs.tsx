@@ -61,7 +61,13 @@ const About = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 px-8">
             {teamMembers.map((member, index) => (
               <div key={index} className="bg-white text-black shadow-md rounded-lg p-6">
-                <img src={member.image} alt={member.name} className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" />
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  width={96} // Adjust the width and height
+                  height={96} // Adjust the width and height
+                  className="rounded-full mx-auto mb-4 object-cover"
+                />
                 <h3 className="text-lg font-semibold">{member.name}</h3>
                 <p className="text-gray-600">{member.role}</p>
               </div>

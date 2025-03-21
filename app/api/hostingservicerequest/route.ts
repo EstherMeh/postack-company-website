@@ -50,31 +50,38 @@ export async function POST(req: Request) {
       data: hostingrequestEntry,
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error in handling form submission:", error);
 
     // Log the error details
     if (error instanceof Error) {
       console.error("Error message:", error.message);
       console.error("Error stack:", error.stack);
+
+      // Ensure that the error response is always a valid JSON
+      const errorMessage = {
+        message: "An error occurred while processing your request.",
+        details: error.message,
+      };
+
+      // Handle specific Prisma error for duplicate entries
+      if ("code" in error && (error as any).code === "P2002") {
+        return NextResponse.json(
+          { message: "Duplicate entry detected. Please use a unique email or phone number." },
+          { status: 400 }
+        );
+      }
+
+      return NextResponse.json(errorMessage, { status: 500 });
     }
 
-    // Ensure that the error response is always a valid JSON
-    const errorMessage = {
-      message: "An error occurred while processing your request.",
-      details: error.message || String(error),
-    };
-
-    // Handle specific Prisma error for duplicate entries
-    if (error.code === "P2002") {
-      return NextResponse.json(
-        { message: "Duplicate entry detected. Please use a unique email or phone number." },
-        { status: 400 }
-      );
-    }
-
-    // Return a generic error message for other errors
-    return NextResponse.json(errorMessage, { status: 500 });
-
+    return NextResponse.json(
+      {
+        message: "An unexpected error occurred.",
+        details: String(error),
+      },
+      { status: 500 }
+    );
   }
+
 }
