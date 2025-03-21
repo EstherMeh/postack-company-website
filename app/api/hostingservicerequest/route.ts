@@ -29,15 +29,15 @@ export async function POST(req: Request) {
 
     // Check for required fields
     const requiredFields = ['email', 'phone', 'selectedPackage', 'hostingRequirement', 'technicalSpecs'];
-    for (const field of requiredFields) {
-      if (!formData[field]) {
-        console.error(`Missing required field: ${field}`);
-        return NextResponse.json(
-          { message: `Missing required field: ${field}` },
-          { status: 400 }
-        );
-      }
-    }
+   for (const field of requiredFields) {
+  if (!formData[field as keyof HostingRequestForm]) {
+    console.error(`Missing required field: ${field}`);
+    return NextResponse.json(
+      { message: `Missing required field: ${field}` },
+      { status: 400 }
+    );
+  }
+}
 
     // Create a new hosting request entry
     const hostingrequestEntry = await prisma.hostingRequest.create({
