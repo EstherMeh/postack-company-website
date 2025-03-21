@@ -18,8 +18,8 @@ const ContactForm: NextPage = () => {
   });
 
   const [isClient, setIsClient] = useState(false); // State to handle client-side rendering
-  const [loading, setLoading] = useState(false);  // ✅ Define setLoading
-const [error, setError] = useState<string | null>(null);  // ✅ Define setError
+  const [loading, setLoading] = useState(false); // ✅ Define setLoading
+  const [error, setError] = useState<string | null>(null); // ✅ Define setError
 
   useEffect(() => {
     setIsClient(true); // Ensure this only runs client-side
@@ -29,68 +29,68 @@ const [error, setError] = useState<string | null>(null);  // ✅ Define setError
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setLoading(true);
-  setError(null);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
 
-  try {
-    console.log("📤 Sending form data:", formData);
+    try {
+      console.log("📤 Sending form data:", formData);
 
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Error submitting form:", errorData);
-      setError(errorData.message || "Failed to submit the form. Please try again.");
-      return;
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error submitting form:", errorData);
+        setError(errorData.message || "Failed to submit the form. Please try again.");
+        return;
+      }
+
+      console.log("Database submission successful!");
+
+      // Send Email Notification
+      const emailResponse = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: process.env.NEXT_PUBLIC_ACCESS_KEY || "",
+          ...formData,
+        }),
+      });
+
+      if (!emailResponse.ok) {
+        throw new Error(`Email forwarding error: ${await emailResponse.text()}`);
+      }
+
+      console.log("📩 Email sent successfully!");
+
+      await Swal.fire({
+        title: "Success!",
+        text: "Request Submitted Successfully!",
+        icon: "success",
+      });
+
+      setFormData({ name: "", email: "", subject: "", message: "" });
+
+    } catch (err) {
+      console.error("🚨 Error:", err instanceof Error ? err.message : "Unknown error");
+      setError(err instanceof Error ? err.message : "An unknown error occurred.");
+
+      await Swal.fire({
+        title: "Error!",
+        text: error || "Failed to submit form. Please try again.",
+        icon: "error",
+      });
+    } finally {
+      setLoading(false);
     }
+  };
 
-    console.log("Database submission successful!");
-
-    // Send Email Notification
-    const emailResponse = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({
-      access_key: process.env.NEXT_PUBLIC_ACCESS_KEY || "",
-        ...formData,
-      }),
-    });
-
-    if (!emailResponse.ok) {
-      throw new Error(`Email forwarding error: ${await emailResponse.text()}`);
-    }
-
-    console.log("📩 Email sent successfully!");
-    
-    await Swal.fire({
-      title: "Success!",
-      text: "Request Submitted Successfully!",
-      icon: "success",
-    });
-
-    setFormData({ name: "", email: "", subject: "", message: "" });
-
-  } catch (error: any) {
-    console.error("🚨 Error:", error.message);
-    setError(error.message);
-
-    await Swal.fire({
-      title: "Error!",
-      text: error.message || "Failed to submit form. Please try again.",
-      icon: "error",
-    });
-  } finally {
-    setLoading(false);
-  }
-};
-
-if (!isClient) {
+  if (!isClient) {
     return null; // Do not render the form until client-side JS has loaded
   }
 
@@ -150,8 +150,9 @@ if (!isClient) {
                 ></textarea>
               </div>
               <button type="submit" className="w-full bg-blue-700 text-white py-2 rounded-md">
-                Send Message
+                {loading ? "Sending..." : "Send Message"}
               </button>
+              {error && <p className="text-red-500 text-center">{error}</p>}
             </form>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center text-center w-80 mx-auto">
@@ -163,6 +164,7 @@ if (!isClient) {
         </div>
       </div>
     </div>
-);
+  );
 };
+
 export default ContactForm;

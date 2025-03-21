@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
+<<<<<<< HEAD
 // Singleton Prisma Client instance
 const prisma = global.prisma || new PrismaClient();
 if (process.env.NODE_ENV !== "production") global.prisma = prisma;
@@ -12,6 +13,24 @@ export async function POST(req: Request) {
     // Parse the JSON body from the request
     const formData = await req.json();
     console.log("Received formData at backend:", formData);
+=======
+// Define the type for form data
+interface HostingRequestForm {
+  email: string;
+  phone: string;
+  selectedPackage: string;
+  hostingRequirement: string;
+  technicalSpecs: string;
+}
+
+// Ensure only one PrismaClient instance is created
+const prisma = new PrismaClient();
+
+export async function POST(req: Request) {
+  try {
+    // Parse the JSON body from the request and ensure it matches the expected type
+    const formData: HostingRequestForm = await req.json();
+>>>>>>> 2b4e6492f97f7d908153c514c3a97c65c6aebdb6
 
     // Validate incoming data
     if (!formData || typeof formData !== 'object' || Object.keys(formData).length === 0) {
@@ -80,6 +99,7 @@ export async function POST(req: Request) {
     // Ensure that the error response is always a valid JSON
     const errorMessage = {
       message: "An error occurred while processing your request.",
+
       details: error instanceof Error ? error.message : String(error),
     };
 

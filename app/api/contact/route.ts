@@ -48,11 +48,18 @@ export async function POST(req: Request) {
     console.log("Successfully saved to database:", contactEntry);
     return NextResponse.json({ message: "Form submitted!", data: contactEntry }, { status: 200 });
 
-  } catch (error: any) {
-    console.error("Server error:", error.message || error);
-
+    } catch (error) {
+    if (error instanceof Error) {
+      console.error("Server error:", error.message);
+      return NextResponse.json(
+        { message: "Internal Server Error", error: error.message },
+        { status: 500 }
+      );
+    }
+    
+    console.error("Server error:", error);
     return NextResponse.json(
-      { message: "Internal Server Error", error: error.message || String(error) },
+      { message: "Internal Server Error", error: String(error) },
       { status: 500 }
     );
   } finally {
