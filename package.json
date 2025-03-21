@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build && prisma generate", // Ensure Prisma Client is generated
-    "postinstall": "prisma generate", // Optional: Generate Prisma Client after install
+    "build": "next build && prisma generate",
+    "postinstall": "prisma generate", 
     "start": "next start",
     "lint": "next lint"
   },
