@@ -25,7 +25,7 @@ const teamMembers = [
   { 
     name: "Chipo Mukwavi", 
     role: "Marketing Manager", 
-    image: "/images/emily.jpg",
+    image: "/Postack_logo.jpeg",
     bio: "Marketing Manager @Postack Solutions."
   },
 ];
