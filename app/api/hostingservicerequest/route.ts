@@ -1,19 +1,6 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
-<<<<<<< HEAD
-// Singleton Prisma Client instance
-const prisma = global.prisma || new PrismaClient();
-if (process.env.NODE_ENV !== "production") global.prisma = prisma;
-
-export async function POST(req: Request) {
-  try {
-    console.log("Raw Request Object:", req);
-
-    // Parse the JSON body from the request
-    const formData = await req.json();
-    console.log("Received formData at backend:", formData);
-=======
 // Define the type for form data
 interface HostingRequestForm {
   email: string;
@@ -26,11 +13,15 @@ interface HostingRequestForm {
 // Ensure only one PrismaClient instance is created
 const prisma = new PrismaClient();
 
+// Custom type guard for error with code property
+function isPrismaError(error: unknown): error is { code: string } {
+  return typeof error === 'object' && error !== null && 'code' in error;
+}
+
 export async function POST(req: Request) {
   try {
     // Parse the JSON body from the request and ensure it matches the expected type
     const formData: HostingRequestForm = await req.json();
->>>>>>> 2b4e6492f97f7d908153c514c3a97c65c6aebdb6
 
     // Validate incoming data
     if (!formData || typeof formData !== 'object' || Object.keys(formData).length === 0) {
@@ -53,24 +44,6 @@ export async function POST(req: Request) {
       }
     }
 
-    // Validate email format
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    if (!emailRegex.test(formData.email)) {
-      return NextResponse.json(
-        { message: "Invalid email format" },
-        { status: 400 }
-      );
-    }
-
-    // Validate phone number format (simple check for numeric value)
-    const phoneRegex = /^[0-9]+$/;
-    if (!phoneRegex.test(formData.phone)) {
-      return NextResponse.json(
-        { message: "Invalid phone number format" },
-        { status: 400 }
-      );
-    }
-
     // Create a new hosting request entry
     const hostingrequestEntry = await prisma.hostingRequest.create({
       data: {
@@ -90,7 +63,7 @@ export async function POST(req: Request) {
   } catch (error: unknown) {
     console.error("Error in handling form submission:", error);
 
-    // Handle the error based on its type
+    // Log the error details
     if (error instanceof Error) {
       console.error("Error message:", error.message);
       console.error("Error stack:", error.stack);
@@ -99,12 +72,11 @@ export async function POST(req: Request) {
     // Ensure that the error response is always a valid JSON
     const errorMessage = {
       message: "An error occurred while processing your request.",
-
-      details: error instanceof Error ? error.message : String(error),
+      details: (error as Error).message || String(error),
     };
 
     // Handle specific Prisma error for duplicate entries
-    if (error instanceof Error && error.message.includes("P2002")) {
+    if (isPrismaError(error) && error.code === "P2002") {
       return NextResponse.json(
         { message: "Duplicate entry detected. Please use a unique email or phone number." },
         { status: 400 }
