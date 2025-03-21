@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import Head from 'next/head';
 import AboutUs from '@/components/AboutUs/AboutUs';
 import Hosting from '@/components/Hosting/Hosting';
-import Review from '@/components/Review/Review';
+import Review from '@/components/Review/TestimonialSection';
 import ContactForm from '@/components/ContactUs/ContactForm';
 import Navbar from '@/components/Navbar/Navbar';
 import Hero from '@/components/Hero/Hero';
