@@ -1,17 +1,22 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
+// Define the type for form data
+interface HostingRequestForm {
+  email: string;
+  phone: string;
+  selectedPackage: string;
+  hostingRequirement: string;
+  technicalSpecs: string;
+}
+
 // Ensure only one PrismaClient instance is created
 const prisma = new PrismaClient();
 
-
 export async function POST(req: Request) {
   try {
-    console.log("Raw Request Object:", req);
-    
-    // Parse the JSON body from the request
-    const formData = await req.json();
-    console.log("Received formData at backend:", formData);
+    // Parse the JSON body from the request and ensure it matches the expected type
+    const formData: HostingRequestForm = await req.json();
 
     // Validate incoming data
     if (!formData || typeof formData !== 'object' || Object.keys(formData).length === 0) {
@@ -50,38 +55,30 @@ export async function POST(req: Request) {
       data: hostingrequestEntry,
     });
 
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error in handling form submission:", error);
 
     // Log the error details
     if (error instanceof Error) {
       console.error("Error message:", error.message);
       console.error("Error stack:", error.stack);
-
-      // Ensure that the error response is always a valid JSON
-      const errorMessage = {
-        message: "An error occurred while processing your request.",
-        details: error.message,
-      };
-
-      // Handle specific Prisma error for duplicate entries
-      if ("code" in error && (error as any).code === "P2002") {
-        return NextResponse.json(
-          { message: "Duplicate entry detected. Please use a unique email or phone number." },
-          { status: 400 }
-        );
-      }
-
-      return NextResponse.json(errorMessage, { status: 500 });
     }
 
-    return NextResponse.json(
-      {
-        message: "An unexpected error occurred.",
-        details: String(error),
-      },
-      { status: 500 }
-    );
-  }
+    // Ensure that the error response is always a valid JSON
+    const errorMessage = {
+      message: "An error occurred while processing your request.",
+      details: (error as Error).message || String(error),
+    };
 
+    // Handle specific Prisma error for duplicate entries
+    if (error instanceof Error && "code" in error && (error as any).code === "P2002") {
+      return NextResponse.json(
+        { message: "Duplicate entry detected. Please use a unique email or phone number." },
+        { status: 400 }
+      );
+    }
+
+    // Return a generic error message for other errors
+    return NextResponse.json(errorMessage, { status: 500 });
+  }
 }

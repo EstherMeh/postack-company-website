@@ -35,7 +35,7 @@ const About = () => {
             <div className="bg-gray-900 text-white shadow-md rounded-lg p-6">
               <FaShieldAlt className="text-blue-400 text-4xl mx-auto mb-4" />
               <h3 className="text-lg font-semibold">Security First</h3>
-              <p className="text-gray-400">We prioritize data security and privacy to ensure our clients' trust.</p>
+              <p className="text-gray-400">We prioritize data security and privacy to ensure our clients trust.</p>
             </div>
             <div className="bg-gray-900 text-white shadow-md rounded-lg p-6">
               <FaHandsHelping className="text-green-400 text-4xl mx-auto mb-4" />
