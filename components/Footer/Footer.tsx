@@ -6,7 +6,7 @@ import { PiTiktokLogo } from "react-icons/pi";
 
 const Footer = () => {
   return (
-    <footer className="footer bg-neutral text-neutral-content p-10">
+    <footer className="footer bg-gradient-to-r from-gray-50 to-gray-200 text-blue-950 p-10">
         <nav>
             <h6 className="footer-title">Services</h6>
             <a href='' className="link link-hover">Hosting Solutions</a>
@@ -27,7 +27,7 @@ const Footer = () => {
             <a className="link link-hover">Privacy policy</a>
             <a className="link link-hover">Cookie policy</a>
         </nav>
-        <div className="footer bg-neutral text-neutral-content items-center p-4">
+        <div className="footer bg-inherit items-center p-4">
         <aside className="grid-flow-col items-center">
             <Link href="https://www.f6s.com/postack-solutions" target='_blank'>
                 <Image src="/Postack_logo.jpeg" alt="Postack Solutions" width={40} height={40}/>
