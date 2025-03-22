@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build && prisma generate",
+    "postinstall": "prisma generate", 
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/swc-win32-x64-msvc": "^15.2.1",
     "@prisma/client": "^6.4.1",
     "daisyui": "^4.12.24",
     "framer-motion": "^12.5.0",

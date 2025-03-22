@@ -1,9 +1,7 @@
-"use client";
-import React, { useState } from "react";
+import Swal from "sweetalert2";
+import React, { useState, useEffect } from "react";
 import type { NextPage } from "next";
-import { FaTwitter, FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
 
-// Define an interface for form data
 interface FormData {
   name: string;
   email: string;
@@ -19,43 +17,88 @@ const ContactForm: NextPage = () => {
     message: "",
   });
 
-  // Handle input change
+  const [isClient, setIsClient] = useState(false); // State to handle client-side rendering
+  const [loading, setLoading] = useState(false); // ✅ Define setLoading
+  const [error, setError] = useState<string | null>(null); // ✅ Define setError
+
+  useEffect(() => {
+    setIsClient(true); // Ensure this only runs client-side
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
 
     try {
-      const response = await fetch("/api/forms/contact", {
+      console.log("📤 Sending form data:", formData);
+
+      const response = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData), // ✅ FIXED: Passing correct state data
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        console.log("Form submitted successfully!");
-        setFormData({ name: "", email: "", subject: "", message: "" }); // ✅ Reset form on success
-      } else {
-        console.log("Error submitting form:", await response.json());
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error submitting form:", errorData);
+        setError(errorData.message || "Failed to submit the form. Please try again.");
+        return;
       }
-    } catch (error) {
-      console.error("Network error:", error);
+
+      console.log("Database submission successful!");
+
+      // Send Email Notification
+      const emailResponse = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: process.env.NEXT_PUBLIC_ACCESS_KEY || "",
+          ...formData,
+        }),
+      });
+
+      if (!emailResponse.ok) {
+        throw new Error(`Email forwarding error: ${await emailResponse.text()}`);
+      }
+
+      console.log("📩 Email sent successfully!");
+
+      await Swal.fire({
+        title: "Success!",
+        text: "Request Submitted Successfully!",
+        icon: "success",
+      });
+
+      setFormData({ name: "", email: "", subject: "", message: "" });
+
+    } catch (err) {
+      console.error("🚨 Error:", err instanceof Error ? err.message : "Unknown error");
+      setError(err instanceof Error ? err.message : "An unknown error occurred.");
+
+      await Swal.fire({
+        title: "Error!",
+        text: error || "Failed to submit form. Please try again.",
+        icon: "error",
+      });
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (!isClient) {
+    return null; // Do not render the form until client-side JS has loaded
+  }
 
   return (
     <div className="bg-blue-100 min-h-screen flex justify-center items-center" id="contactus">
       <div className="max-w-5xl mx-auto px-6 py-12">
-        {/* Heading */}
         <h2 className="text-3xl font-bold text-center mb-8">Get in Touch</h2>
-
         <div className="grid md:grid-cols-3 gap-8">
-          {/* Contact Form */}
           <div className="md:col-span-2 bg-white p-6 rounded-lg shadow-md">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -106,37 +149,17 @@ const ContactForm: NextPage = () => {
                   required
                 ></textarea>
               </div>
-              <button type="submit" className="w-full bg-pink-700 text-white py-2 rounded-md">
-                Send Message
+              <button type="submit" className="w-full bg-blue-700 text-white py-2 rounded-md">
+                {loading ? "Sending..." : "Send Message"}
               </button>
+              {error && <p className="text-red-500 text-center">{error}</p>}
             </form>
           </div>
-
-          {/* Contact Info Box */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center text-center w-80 mx-auto">
             <h3 className="text-xl font-semibold mb-4">Contact Info</h3>
             <p><strong>Office Location:</strong> 123 Main Street, City, Country</p>
             <p><strong>Email:</strong> contact@yourcompany.com</p>
             <p><strong>Phone:</strong> +123 456 7890</p>
-
-            {/* Socials */}
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold mb-2">Follow Us</h3>
-              <div className="space-y-2">
-                <a href="#" className="flex items-center text-blue-500">
-                  <FaTwitter className="mr-2" /> Twitter
-                </a>
-                <a href="#" className="flex items-center text-blue-700">
-                  <FaFacebook className="mr-2" /> Facebook
-                </a>
-                <a href="#" className="flex items-center text-blue-600">
-                  <FaLinkedin className="mr-2" /> LinkedIn
-                </a>
-                <a href="#" className="flex items-center text-blue-600">
-                  <FaInstagram className="mr-2" /> Instagram
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </div>

@@ -1,33 +1,84 @@
-import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { NextResponse } from "next/server";
+import { PrismaClient, Prisma } from "@prisma/client";
 
+// Define the type for form data
+interface HostingRequestForm {
+  email: string;
+  phone: string;
+  selectedPackage: string;
+  hostingRequirement: string;
+  technicalSpecs: string;
+}
+
+// Ensure only one PrismaClient instance is created
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    const formData = await req.json();
-    console.log("Received formData at backend:", formData);
+    // Parse the JSON body from the request and ensure it matches the expected type
+    const formData: HostingRequestForm = await req.json();
 
-    if (!formData || Object.keys(formData).length === 0) {
+    // Validate incoming data
+    if (!formData || typeof formData !== 'object' || Object.keys(formData).length === 0) {
+      console.error("Invalid form data received:", formData);
       return NextResponse.json(
         { message: "Invalid form data received" },
         { status: 400 }
       );
     }
 
-    const contactEntry = await prisma.hostingRequest.create({
+    // Check for required fields
+    const requiredFields = ['email', 'phone', 'selectedPackage', 'hostingRequirement', 'technicalSpecs'];
+   for (const field of requiredFields) {
+  if (!formData[field as keyof HostingRequestForm]) {
+    console.error(`Missing required field: ${field}`);
+    return NextResponse.json(
+      { message: `Missing required field: ${field}` },
+      { status: 400 }
+    );
+  }
+}
+
+    // Create a new hosting request entry
+    const hostingrequestEntry = await prisma.hostingRequest.create({
       data: {
         email: formData.email,
-        phoneNumber: formData.phone, // Ensure this matches your form data
+        phoneNumber: formData.phone,
         selectedPackage: formData.selectedPackage,
         hostingRequirement: formData.hostingRequirement,
-        technicalSpecs: formData.technicalSpecs, // Ensure this matches your form data
+        technicalSpecs: formData.technicalSpecs,
       },
     });
 
-    return NextResponse.json({ message: 'Hosting Request form submitted successfully!', data: contactEntry });
-  } catch (error) {
-    console.error("Error in handling form submission:", error); // Log the error
-    return NextResponse.json({ message: 'Error submitting form!', details: error }, { status: 500 });
+    return NextResponse.json({
+      message: "Hosting Request form submitted successfully!",
+      data: hostingrequestEntry,
+    });
+
+  } catch (error: unknown) {
+    console.error("Error in handling form submission:", error);
+
+    // Log the error details
+    if (error instanceof Error) {
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+    }
+
+    // Ensure that the error response is always a valid JSON
+    const errorMessage = {
+      message: "An error occurred while processing your request.",
+      details: (error as Error).message || String(error),
+    };
+
+    // Handle specific Prisma error for duplicate entries
+   if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+  return NextResponse.json(
+    { message: "Duplicate entry detected. Please use a unique email or phone number." },
+    { status: 400 }
+  );
+}
+
+    // Return a generic error message for other errors
+    return NextResponse.json(errorMessage, { status: 500 });
   }
 }

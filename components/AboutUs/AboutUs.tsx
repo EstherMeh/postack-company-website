@@ -119,6 +119,33 @@ const About = () => {
           </motion.div>
         </div>
 
+        {/* Company Values & Culture */}
+        <div className="relative z-10 py-20 text-center bg-gray-800">
+          <h2 className="text-2xl font-semibold text-blue-300 mb-6">Our Values & Culture</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 px-8">
+            <div className="bg-gray-900 text-white shadow-md rounded-lg p-6">
+              <FaShieldAlt className="text-blue-400 text-4xl mx-auto mb-4" />
+              <h3 className="text-lg font-semibold">Security First</h3>
+              <p className="text-gray-400">We prioritize data security and privacy to ensure our clients trust.</p>
+            </div>
+            <div className="bg-gray-900 text-white shadow-md rounded-lg p-6">
+              <FaHandsHelping className="text-green-400 text-4xl mx-auto mb-4" />
+              <h3 className="text-lg font-semibold">Customer Commitment</h3>
+              <p className="text-gray-400">We provide top-tier support and assistance for all our clients.</p>
+            </div>
+            <div className="bg-gray-900 text-white shadow-md rounded-lg p-6">
+              <FaLightbulb className="text-yellow-400 text-4xl mx-auto mb-4" />
+              <h3 className="text-lg font-semibold">Innovation</h3>
+              <p className="text-gray-400">We embrace new technologies to offer the best hosting solutions.</p>
+            </div>
+            <div className="bg-gray-900 text-white shadow-md rounded-lg p-6">
+              <FaUsers className="text-red-400 text-4xl mx-auto mb-4" />
+              <h3 className="text-lg font-semibold">Teamwork</h3>
+              <p className="text-gray-400">We believe in collaboration and mutual growth within our team.</p>
+            </div>
+          </div>
+        </div>
+
         {/* Meet Our Team */}
         <div className="relative z-10 py-20 text-center bg-gradient-to-r from-gray-200 to-gray-500">
           <h2 className="text-3xl font-semibold text-blue-950 mb-12">Meet Our Team</h2>
