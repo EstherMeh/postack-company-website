@@ -135,6 +135,7 @@ const About = () => {
                   <Image 
                     src={member.image} 
                     alt={member.name} 
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw" 
                     fill
                     className="rounded-full object-cover"
                   />
