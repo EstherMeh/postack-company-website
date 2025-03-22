@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+"use client"
+import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import ReviewForm from "./ReviewForm";
 
 interface Testimonial {
   id: number;
@@ -12,9 +14,9 @@ interface Testimonial {
   image: string;
 }
 
-const testimonials: Testimonial[] = [
+const defaultTestimonials: Testimonial[] = [
   {
-    id: 1,
+    id: 10001,
     name: "Sarah Johnson",
     position: "Product Manager at TechCorp",
     review: "This product has completely transformed our workflow. The intuitive interface and powerful features have made our team significantly more productive.",
@@ -22,7 +24,7 @@ const testimonials: Testimonial[] = [
     image: "/images/gil2.jpeg"
   },
   {
-    id: 2,
+    id: 10002,
     name: "Michael Chen",
     position: "Senior Developer at InnovateLabs",
     review: "Outstanding service and exceptional quality. The attention to detail and customer support are unmatched in the industry.",
@@ -30,7 +32,7 @@ const testimonials: Testimonial[] = [
     image: "/images/gent2.jpeg"
   },
   {
-    id: 3,
+    id: 10003,
     name: "Emily Rodriguez",
     position: "Marketing Director at GrowthCo",
     review: "A game-changer for our marketing campaigns. We've seen remarkable results since implementing this solution.",
@@ -38,7 +40,7 @@ const testimonials: Testimonial[] = [
     image: "/images/girl.jpeg"
   },
   {
-    id: 4,
+    id: 10004,
     name: "David Kim",
     position: "CEO at StartupX",
     review: "Incredible value for money. The ROI we've seen has exceeded our expectations by a significant margin.",
@@ -94,32 +96,59 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
 
 const TestimonialSection: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [autoPlay, setAutoPlay] = useState<boolean>(true);
+  const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
+  const [fetchedTestimonials, setFetchedTestimonials] = useState<Testimonial[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleSlideChange = useCallback((index: number) => {
-    setCurrentIndex(index);
-    setAutoPlay(false);
-  }, []);
+  const fetchTestimonials = async () => {
+    try {
+      const response = await fetch('/api/reviews');
+      if (!response.ok) {
+        throw new Error('Failed to fetch reviews');
+      }
+      const data = await response.json();
+      setFetchedTestimonials(data);
+    } catch (error) {
+      console.error('Error fetching testimonials:', error);
+      setFetchedTestimonials([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | undefined;
+    fetchTestimonials();
+  }, []);
 
-    if (autoPlay) {
-      interval = setInterval(() => {
-        setCurrentIndex((prev) =>
-          prev === testimonials.length - 3 ? 0 : prev + 1
-        );
-      }, 5000);
+  const allTestimonials = React.useMemo(() => {
+    if (fetchedTestimonials.length > 0) {
+      return fetchedTestimonials;
     }
+    return defaultTestimonials;
+  }, [fetchedTestimonials]);
 
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, [autoPlay]);
+  const visibleTestimonials = React.useMemo(() => {
+    const numTestimonials = allTestimonials.length;
+    if (numTestimonials === 0) return [];
+    
+    return Array.from({ length: Math.min(3, numTestimonials) }, (_, i) => {
+      const index = (currentIndex + i) % numTestimonials;
+      return allTestimonials[index];
+    });
+  }, [allTestimonials, currentIndex]);
+  useEffect(() => {
+    if (allTestimonials.length <= 3) return;
 
-  const visibleTestimonials = testimonials.slice(currentIndex, currentIndex + 3);
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % allTestimonials.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [allTestimonials.length]);
+
+  const handleReviewSubmitted = async () => {
+    await fetchTestimonials();
+  };
 
   return (
     <section className="bg-gray-50 py-16 px-4 md:px-8" aria-label="Testimonials">
@@ -128,35 +157,62 @@ const TestimonialSection: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             What Our Clients Say
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-600 max-w-2xl mx-auto mb-8">
             Discover why companies trust us to deliver exceptional results
           </p>
+          <button
+            onClick={() => setIsReviewFormOpen(true)}
+            className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Leave a Review
+          </button>
         </div>
 
-        <div className="relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <AnimatePresence>
-              {visibleTestimonials.map((testimonial) => (
-                <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-              ))}
-            </AnimatePresence>
+        {isLoading ? (
+          <div className="flex justify-center items-center min-h-[400px]">
+            <div className="animate-spin h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full"></div>
           </div>
+        ) : (
+          <div className="relative">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <AnimatePresence mode="wait">
+                {visibleTestimonials.map((testimonial) => (
+                  <TestimonialCard 
+                    key={`testimonial-${testimonial.id}`} 
+                    testimonial={testimonial} 
+                  />
+                ))}
+              </AnimatePresence>
+            </div>
 
-          <div className="flex justify-center mt-8 gap-2" role="navigation" aria-label="Testimonial navigation">
-            {testimonials.slice(0, testimonials.length - 2).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => handleSlideChange(index)}
-                className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-                  currentIndex === index ? "bg-blue-600" : "bg-gray-300"
-                }`}
-                aria-label={`Go to testimonial slide ${index + 1}`}
-                aria-current={currentIndex === index ? "true" : "false"}
-              />
-            ))}
+            {allTestimonials.length > 3 && (
+              <div className="flex justify-center mt-8 gap-2">
+                {allTestimonials.map((_, index) => (
+                  <button
+                    key={`nav-${index}`}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`w-3 h-3 rounded-full transition-colors duration-300 ${
+                      currentIndex === index ? "bg-blue-600" : "bg-gray-300"
+                    }`}
+                    aria-label={`Go to testimonial slide ${index + 1}`}
+                    aria-current={currentIndex === index ? "true" : "false"}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-        </div>
+        )}
       </div>
+
+      <AnimatePresence>
+        {isReviewFormOpen && (
+          <ReviewForm
+            isOpen={isReviewFormOpen}
+            onClose={() => setIsReviewFormOpen(false)}
+            onReviewSubmitted={handleReviewSubmitted}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 };
