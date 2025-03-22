@@ -2,10 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: #ffffff;
+  color: #000000;
+}
+
 .animate-bg-move {
- animation: bgMove 15s infinite alternate linear;
+  animation: bgMove 15s infinite alternate linear;
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
