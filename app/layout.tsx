@@ -4,8 +4,16 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Postack Solutions",
-  description: "Powering Convenience, Innovation, and Growth. Postack Solutions delivers innovative digital services, including seamless grocery delivery, web development, and reliable server hosting.",
-  keywords: ["web development", "hosting", "digital solutions", "Zambia", "grocery delivery", "technology"],
+  description:
+    "Powering Convenience, Innovation, and Growth. Postack Solutions delivers innovative digital services, including seamless grocery delivery, web development, and reliable server hosting.",
+  keywords: [
+    "web development",
+    "hosting",
+    "digital solutions",
+    "Zambia",
+    "grocery delivery",
+    "technology",
+  ],
   authors: [{ name: "Postack Solutions" }],
   creator: "Postack Solutions",
   publisher: "Postack Solutions",
@@ -18,13 +26,17 @@ export const metadata: Metadata = {
     icon: "/Postack_logo.jpeg",
     apple: "/Postack_logo.jpeg",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
-  themeColor: "#ffffff",
 };
+
+// Move viewport to its own export
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
+// Move themeColor to its own export
+export const themeColor = "#ffffff";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,14 +51,16 @@ const geistMono = Geist_Mono({
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" data-theme="light">
       <head>
         <meta name="color-scheme" content="light only" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
+      >
         {children}
       </body>
     </html>
