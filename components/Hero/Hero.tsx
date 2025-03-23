@@ -1,6 +1,7 @@
 "use client"
 import React from 'react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 const Hero = () => {
   // Animation variants
@@ -150,22 +151,26 @@ const Hero = () => {
               className="flex space-x-4"
               variants={containerVariants}
             >
-              <motion.button 
-                className="px-4 py-2 btn btn-primary text-white hover:bg-blue-700 transition-all duration-300"
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                Get started
-              </motion.button>
-              <motion.button 
-                className="px-4 py-2 btn btn-neutral text-white hover:bg-blue-700 transition-all duration-300"
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                Learn more
-              </motion.button>
+              <Link href="#services">
+                <motion.button 
+                  className="px-4 py-2 btn btn-primary text-white hover:bg-blue-700 transition-all duration-300"
+                  variants={buttonVariants}
+                  whileHover="hover"
+                  whileTap="tap"
+                >
+                  Get started
+                </motion.button>
+              </Link>
+              <Link href="https://www.f6s.com/postack-solutions" target="_blank">
+                <motion.button 
+                  className="px-4 py-2 btn btn-neutral text-white hover:bg-blue-700 transition-all duration-300"
+                  variants={buttonVariants}
+                  whileHover="hover"
+                  whileTap="tap"
+                >
+                  Learn more
+                </motion.button>
+              </Link>
             </motion.div>
           </motion.div>
           
