@@ -22,6 +22,7 @@ interface ServiceRequestFormProps {
 }
 
 export default function ServiceRequestForm({ isOpen, onClose, selectedService, services }: ServiceRequestFormProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     access_key: process.env.NEXT_PUBLIC_ACCESS_KEY || "",
     fullName: "",
@@ -130,8 +131,13 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
   // Handle form submission
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await handleSubmit();
-    await handleEmailForwarding();
+    setIsSubmitting(true);
+    try {
+      await handleSubmit();
+      await handleEmailForwarding();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -305,9 +311,38 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-[#1e3a8a] hover:bg-blue-800 text-white font-medium rounded-md transition duration-200"
+              disabled={isSubmitting}
+              className={`px-4 py-2 bg-[#1e3a8a] hover:bg-blue-800 text-white font-medium rounded-md transition duration-200 flex items-center justify-center ${
+                isSubmitting ? 'opacity-75 cursor-not-allowed' : ''
+              }`}
             >
-              Submit Request
+              {isSubmitting ? (
+                <span className="flex items-center gap-2">
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                    ></path>
+                  </svg>
+                  Submitting...
+                </span>
+              ) : (
+                'Submit Request'
+              )}
             </button>
           </div>
         </form>

@@ -2,9 +2,11 @@ import Swal from "sweetalert2";
 import React, { useState } from "react";
 
 interface HostingServiceRequestFormProps {
+  isOpen: boolean;  
   selectedPackage: string;
   onClose: () => void;
 }
+
 
 const HostingServiceRequestForm = ({ selectedPackage, onClose }: HostingServiceRequestFormProps) => {
   const [email, setEmail] = useState("");

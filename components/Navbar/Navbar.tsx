@@ -28,13 +28,13 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-slate-800 shadow-md' : 'bg-transparent'
+        scrolled ? 'bg-gradient-to-r from-gray-50 to-gray-400 shadow-md' : 'bg-transparent'
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-2 py-2">
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <Link href="/">
+          <Link href="https://www.f6s.com/postack-solutions" target='_blank'>
             <Image
               src="/Postack_logo.jpeg"
               alt="Postack Solutions"
@@ -43,13 +43,11 @@ const Navbar = () => {
               className="cursor-pointer"
             />
           </Link>
-          <span
-            className={`text-xl font-bold transition-colors duration-300 ${
-              scrolled ? 'text-white' : 'text-white'
-            }`}
-          >
+          <Link href="https://www.f6s.com/postack-solutions" target='_blank'
+            className="text-xl font-bold transition-colors duration-300 text-blue-950"
+          >  
             Postack Solutions
-          </span>
+          </Link>
         </div>
 
         {/* Hamburger Menu Icon */}
@@ -71,7 +69,7 @@ const Navbar = () => {
           <li>
             <Link
               href="#aboutus"
-              className="text-gray-200 hover:text-blue-100 transition-colors duration-300"
+              className="text-gray-600 hover:text-blue-300 font-semibold transition-colors duration-300"
               onClick={() => {
                 closeMenu(); // Close the menu immediately
               }}
@@ -82,7 +80,7 @@ const Navbar = () => {
           <li>
             <Link
               href="#services"
-              className="text-gray-200 hover:text-blue-100 transition-colors duration-300"
+              className="text-gray-600 hover:text-blue-300 font-semibold transition-colors duration-300"
               onClick={() => {
                 closeMenu(); // Close the menu immediately
               }}
@@ -93,7 +91,7 @@ const Navbar = () => {
           <li>
             <Link
               href="#hosting"
-              className="text-gray-200 hover:text-blue-100 transition-colors duration-300"
+              className="text-gray-600 hover:text-blue-300 font-semibold transition-colors duration-300"
               onClick={() => {
                 closeMenu(); // Close the menu immediately
               }}
@@ -104,7 +102,7 @@ const Navbar = () => {
           <li>
             <Link
               href="#contactus"
-              className="text-gray-200 hover:text-blue-100 transition-colors duration-300"
+              className="text-gray-600 hover:text-blue-300 font-semibold transition-colors duration-300"
               onClick={() => {
                 closeMenu(); // Close the menu immediately
               }}

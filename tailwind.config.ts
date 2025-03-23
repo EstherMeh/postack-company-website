@@ -20,6 +20,10 @@ const config: Config = {
     },
   },
    plugins: [require('daisyui')],
+  daisyui: {
+    themes: ["light"], // Force light theme only
+    darkTheme: "light", // Set default theme to light
+  }
 };
 
 export default config;
