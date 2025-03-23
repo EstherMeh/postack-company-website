@@ -34,7 +34,7 @@ const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between px-2 py-2">
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <Link href="/">
+          <Link href="https://www.f6s.com/postack-solutions" target='_blank'>
             <Image
               src="/Postack_logo.jpeg"
               alt="Postack Solutions"
@@ -43,13 +43,11 @@ const Navbar = () => {
               className="cursor-pointer"
             />
           </Link>
-          <span
-            className={`text-xl font-bold transition-colors duration-300 ${
-              scrolled ? 'text-blue-950' : 'text-blue-950'
-            }`}
-          >
+          <Link href="https://www.f6s.com/postack-solutions" target='_blank'
+            className="text-xl font-bold transition-colors duration-300 text-blue-950"
+          >  
             Postack Solutions
-          </span>
+          </Link>
         </div>
 
         {/* Hamburger Menu Icon */}

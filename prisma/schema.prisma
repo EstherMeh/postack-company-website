@@ -45,3 +45,14 @@ model DevelopmentServices {
   timelineExpectations String
   createdAt            DateTime @default(now())
 }
+
+// Add this model to your existing schema
+model Review {
+  id        Int      @id @default(autoincrement())
+  name      String
+  position  String
+  review    String   @db.Text
+  rating    Int
+  image     String   @default("/Postack_logo.jpeg")
+  createdAt DateTime @default(now())
+}
