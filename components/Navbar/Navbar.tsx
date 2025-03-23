@@ -115,7 +115,7 @@ const Navbar = () => {
         {/* Call-to-Action Button */}
         <div className="hidden lg:flex">
           <a
-            href="https://www.f6s.com/postack-solutions"
+            href="#services"
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-2 btn btn-primary text-white hover:bg-blue-700 transition-all duration-300"
