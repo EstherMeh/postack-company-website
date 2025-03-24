@@ -86,7 +86,7 @@ const Hosting: NextPage = () => {
               plan.popular ? "border-2 border-blue-900 scale-105" : ""
             }`}
           >
-            <div className="flex items-center mb-4">{plan.icon}</div>
+            <div className="flex items-center mb-4"></div>
             <h2 className="text-2xl font-bold text-blue-900 mb-4">{plan.name}</h2>
             <div className="text-3xl font-bold mb-8 relative">
               {plan.price}
