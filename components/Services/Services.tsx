@@ -179,118 +179,118 @@ export default function Services() {
   }
 
   return (
-    <motion.div 
-      className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8" 
-      id="services"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-    >
       <motion.div 
-        className="text-center mb-12"
-        variants={headerVariants}
-      >
-        <motion.h1 
-          className="text-4xl md:text-5xl font-bold text-[#1e3a8a] mb-4"
-          variants={headerVariants}
-        >
-          Development Services
-        </motion.h1>
-        <motion.p 
-          className="text-lg text-gray-600 max-w-3xl mx-auto"
-          variants={headerVariants}
-        >
-          Our comprehensive range of development services designed to help businesses of all sizes achieve their digital
-          goals.
-        </motion.p>
-      </motion.div>
-
-      <motion.div 
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        className="max-w-7xl mx-auto px-4 py-8 md:py-12 lg:px-8" 
+        id="services"
+        initial="hidden"
+        animate="visible"
         variants={containerVariants}
       >
-        {services.map((service) => (
-          <motion.div
-            key={service.id}
-            className="border rounded-lg p-6 shadow-sm flex flex-col h-full"
-            variants={cardVariants}
-            whileHover="hover"
-            layout
+        <motion.div 
+          className="text-center mb-8 md:mb-12"
+          variants={headerVariants}
+        >
+          <motion.h1 
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1e3a8a] mb-3 md:mb-4"
+            variants={headerVariants}
           >
-            <motion.div className="flex items-center mb-4">
-              <motion.div 
-                className="bg-blue-100 p-3 rounded-full mr-4"
-                variants={iconVariants}
-                whileHover={{ rotate: 360, transition: { duration: 0.6 } }}
-              >
-                <service.icon className="h-6 w-6 text-[#1e3a8a]" />
-              </motion.div>
-              <h2 className="text-xl font-bold text-[#1e3a8a]">{service.title}</h2>
-            </motion.div>
-
-            <p className="text-gray-600 mb-6">{service.description}</p>
-
-            <div className="mb-6 flex-grow">
-              <h3 className="font-medium text-gray-700 mb-3">Key Features:</h3>
-              <ul className="space-y-2">
-                {service.features.map((feature, index) => (
-                  <motion.li
-                    key={index}
-                    className="flex items-start"
-                    variants={featureVariants}
-                    custom={index}
-                    initial="hidden"
-                    animate="visible"
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.2 }}
-                      className="flex-shrink-0"
-                    >
-                      <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5" />
-                    </motion.div>
-                    <span>{feature}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
-
-            <motion.button
-              onClick={() => handleRequestService(service.id)}
-              className="w-full bg-[#1e3a8a] hover:bg-blue-800 text-white font-medium py-2 px-4 rounded transition duration-200"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Request Service
-            </motion.button>
-          </motion.div>
-        ))}
-      </motion.div>
-
-      <AnimatePresence>
-        {isFormOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            Development Services
+          </motion.h1>
+          <motion.p 
+            className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto px-4"
+            variants={headerVariants}
           >
+            Our comprehensive range of development services designed to help businesses of all sizes achieve their digital
+            goals.
+          </motion.p>
+        </motion.div>
+    
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          variants={containerVariants}
+        >
+          {services.map((service) => (
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-lg shadow-xl max-w-md w-full m-4"
+              key={service.id}
+              className="border rounded-lg p-4 md:p-6 shadow-sm flex flex-col h-full bg-white"
+              variants={cardVariants}
+              whileHover="hover"
+              layout
             >
-              <ServiceRequestForm
-                isOpen={isFormOpen}
-                onClose={() => setIsFormOpen(false)}
-                selectedService={selectedService}
-                services={services}
-              />
+              <motion.div className="flex items-center mb-4">
+                <motion.div 
+                  className="bg-blue-100 p-2 md:p-3 rounded-full mr-3 md:mr-4"
+                  variants={iconVariants}
+                  whileHover={{ rotate: 360, transition: { duration: 0.6 } }}
+                >
+                  <service.icon className="h-5 w-5 md:h-6 md:w-6 text-[#1e3a8a]" />
+                </motion.div>
+                <h2 className="text-lg md:text-xl font-bold text-[#1e3a8a]">{service.title}</h2>
+              </motion.div>
+    
+              <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">{service.description}</p>
+    
+              <div className="mb-4 md:mb-6 flex-grow">
+                <h3 className="font-medium text-gray-700 mb-2 md:mb-3 text-sm md:text-base">Key Features:</h3>
+                <ul className="space-y-2">
+                  {service.features.slice(0, 5).map((feature, index) => (
+                    <motion.li
+                      key={index}
+                      className="flex items-start text-sm md:text-base"
+                      variants={featureVariants}
+                      custom={index}
+                      initial="hidden"
+                      animate="visible"
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <motion.div
+                        whileHover={{ scale: 1.2 }}
+                        className="flex-shrink-0"
+                      >
+                        <Check className="h-4 w-4 md:h-5 md:w-5 text-green-500 mr-2 mt-0.5" />
+                      </motion.div>
+                      <span>{feature}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+    
+              <motion.button
+                onClick={() => handleRequestService(service.id)}
+                className="w-full bg-[#1e3a8a] hover:bg-blue-800 text-white font-medium py-2 px-4 rounded text-sm md:text-base transition duration-200"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Request Service
+              </motion.button>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  )
+          ))}
+        </motion.div>
+    
+        <AnimatePresence>
+          {isFormOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="bg-white rounded-lg shadow-xl w-full max-w-md md:max-w-2xl lg:max-w-3xl m-4 max-h-[90vh] overflow-y-auto"
+              >
+                <ServiceRequestForm
+                  isOpen={isFormOpen}
+                  onClose={() => setIsFormOpen(false)}
+                  selectedService={selectedService}
+                  services={services}
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    )
 }
