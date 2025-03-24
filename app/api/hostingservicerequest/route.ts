@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 // Define the type for form data
 interface HostingRequestForm {
