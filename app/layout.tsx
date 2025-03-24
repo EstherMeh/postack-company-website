@@ -33,10 +33,8 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  themeColor: "#ffffff"
 };
-
-// Move themeColor to its own export
-export const themeColor = "#ffffff";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
