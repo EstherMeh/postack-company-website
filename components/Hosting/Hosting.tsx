@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import type { NextPage } from "next";
+import { Server, Mail, Database, CheckCircle } from "lucide-react";
 import HostingServiceRequestForm from '@/components/Hosting/HostingServiceRequestForm';
 
 const Hosting: NextPage = () => {
@@ -81,10 +82,11 @@ const Hosting: NextPage = () => {
         {plans.map((plan, index) => (
           <div
             key={index}
-            className={`relative rounded-xl bg-white p-8 shadow-lg ${
+            className={`relative rounded-xl bg-white p-8 shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl ${
               plan.popular ? "border-2 border-blue-900 scale-105" : ""
             }`}
           >
+            <div className="flex items-center mb-4">{plan.icon}</div>
             <h2 className="text-2xl font-bold text-blue-900 mb-4">{plan.name}</h2>
             <div className="text-3xl font-bold mb-8 relative">
               {plan.price}
@@ -97,7 +99,7 @@ const Hosting: NextPage = () => {
             <ul className="space-y-4 mb-8">
               {plan.features.map((feature, i) => (
                 <li key={i} className="flex items-center space-x-2">
-                  <span className="text-green-500">✓</span>
+                  <CheckCircle className="text-green-500 w-5 h-5" />
                   <span>{feature.text}</span>
                 </li>
               ))}

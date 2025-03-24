@@ -157,9 +157,9 @@ const ContactForm: NextPage = () => {
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center text-center w-80 mx-auto">
             <h3 className="text-xl font-semibold mb-4">Contact Info</h3>
-            <p><strong>Office Location:</strong> 123 Main Street, City, Country</p>
-            <p><strong>Email:</strong> contact@yourcompany.com</p>
-            <p><strong>Phone:</strong> +123 456 7890</p>
+            <p><strong>Office Location:</strong> 123 Main Street, Lusaka, Zambia</p>
+            <p><strong>Email:</strong> postack.solutions@gmail.com</p>
+            <p><strong>Phone:</strong> +260 766 419 263</p>
           </div>
         </div>
       </div>

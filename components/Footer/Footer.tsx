@@ -9,15 +9,15 @@ const Footer = () => {
     <footer className="footer bg-gradient-to-r from-gray-50 to-gray-200 text-blue-950 p-10">
         <nav>
             <h6 className="footer-title">Services</h6>
-            <a href='' className="link link-hover">Hosting Solutions</a>
-            <a className="link link-hover">Web Development</a>
-            <a className="link link-hover">Mobile App Development</a>
-            <a className="link link-hover">Custom Software Development</a>
+            <a href="#hosting" className="link link-hover">Hosting Solutions</a>
+            <a href="#services" className="link link-hover">Web Development</a>
+            <a href="#services" className="link link-hover">Mobile App Development</a>
+            <a href="#services" className="link link-hover">Custom Software Development</a>
         </nav>
         <nav>
             <h6 className="footer-title">Company</h6>
-            <a href='#' className="link link-hover">About us</a>
-            <a className="link link-hover">Contact</a>
+            <a href="#aboutus" className="link link-hover">About us</a>
+            <a href="#contactus" className="link link-hover">Contact</a>
             <a className="link link-hover">Jobs</a>
             <a className="link link-hover">Press kit</a>
         </nav>
@@ -35,7 +35,7 @@ const Footer = () => {
             <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
         </aside>
         <div className="flex justify-center md:justify-end gap-4">
-            <a href="#" aria-label="Facebook">
+            <a href="https://www.facebook.com/postackDelivary" aria-label="Facebook">
               <FaFacebook className="h-6 w-6" />
             </a>
             <a href="https://x.com/POSTACKSOL41612" target='_blank' aria-label="X.com">
@@ -56,4 +56,4 @@ const Footer = () => {
   )
 }
 
-export default Footer
+export default Footer;
