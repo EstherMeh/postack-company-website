@@ -4,12 +4,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const teamMembers = [
-<<<<<<< HEAD
-  { name: "Yamikani Kalonge", role: "Managing Director", image: "/images/Yamikani.jpg" },
-  { name: "Chipo Mukwavi", role: "Marketing Manager", image: "/images/chipo.jpg" },
-  { name: "Mwewa Kalonge", role: "CTO and lead developer", image: "/images/mwewa.jpg" },
-  { name: "Mwai Banda", role: "Full Stack Developer", image: "/images/mwai.jpg" },
-=======
   { 
     name: "Mwai Banda", 
     role: "CTO", 
@@ -41,7 +35,6 @@ const achievements = [
   { number: "99.9%", text: "Uptime Guarantee" },
   { number: "24/7", text: "Customer Support" },
   { number: "5★", text: "Average Rating" },
-
 ];
 
 const About = () => {
@@ -70,15 +63,23 @@ const About = () => {
             </p>
             </div>
 
-        {/* Company Values & Culture */}
-        <div className="relative z-10 py-20 text-center bg-gray-800">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-6">Our Values & Culture</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 px-8">
-            <div className="bg-gray-900 text-white shadow-md rounded-lg p-6">
-              <FaShieldAlt className="text-blue-400 text-4xl mx-auto mb-4" />
-              <h3 className="text-lg font-semibold">Security First</h3>
-
-              <p className="text-gray-400">We prioritize data security and privacy to ensure our clients&apos; trust.</p>
+            <div className="grid md:grid-cols-2 gap-8 text-left mb-12">
+              <div>
+                <div className="bg-blue-900 bg-opacity-60 p-6 rounded-lg">
+                <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
+                <p className="text-gray-200">
+                  To empower African businesses with cutting-edge digital solutions that drive growth, efficiency, and innovation in the digital age.
+                </p>
+                </div>
+              </div>
+              <div>
+              <div className="bg-blue-900 bg-opacity-60 p-6 rounded-lg">
+                <h2 className="text-2xl font-semibold mb-4">Our Vision</h2>
+                <p className="text-gray-200">
+                  To become Africa&apos;s leading technology solutions provider, setting the standard for digital excellence and innovation.
+                </p>
+                </div>
+        </div>
             </div>
 
             {/* Core Values */}
