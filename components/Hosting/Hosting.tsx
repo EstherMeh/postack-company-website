@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import type { NextPage } from "next";
-import { Server, Mail, Database, CheckCircle } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import HostingServiceRequestForm from '@/components/Hosting/HostingServiceRequestForm';
 
 const Hosting: NextPage = () => {
