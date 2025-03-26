@@ -16,7 +16,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ isOpen, onClose, onReviewSubmit
     position: '',
     review: '',
     rating: 5,
-    image: '/images/Postack_logo.jpeg',
+    image: '/images/Postack_logo.jpeg', // Updated to a valid image path
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hoveredRating, setHoveredRating] = useState<number | null>(null);
