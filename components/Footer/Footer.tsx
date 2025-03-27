@@ -35,7 +35,7 @@ const Footer = () => {
             <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
         </aside>
         <div className="flex justify-center md:justify-end gap-4">
-            <a href="https://www.facebook.com/postackDelivary" aria-label="Facebook">
+            <a href="https://www.facebook.com/postackDelivary" target='_blank' aria-label="Facebook">
               <FaFacebook className="h-6 w-6" />
             </a>
             <a href="https://x.com/POSTACKSOL41612" target='_blank' aria-label="X.com">
