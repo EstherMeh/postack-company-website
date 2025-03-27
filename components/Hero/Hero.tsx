@@ -93,7 +93,7 @@ const Hero = () => {
       className="pt-16 md:pt-0"
     >
       <motion.div
-        className="hero min-h-screen bg-gradient-to-r from-gray-50 to-gray-400"
+        className="hero min-h-[100dvh] bg-gradient-to-r from-gray-50 to-gray-400"
         animate="animate"
         variants={gradientVariants}
       >

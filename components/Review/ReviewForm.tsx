@@ -10,7 +10,34 @@ interface ReviewFormProps {
   onReviewSubmitted: () => void;
 }
 
+interface FormErrors {
+  name: string;
+  position: string;
+  review: string;
+  image?: string;
+}
+
+const VALIDATION_RULES = {
+  name: {
+    required: true,
+    minLength: 2,
+    maxLength: 50,
+    pattern: /^[a-zA-Z\s'-]+$/,
+  },
+  position: {
+    required: true,
+    minLength: 3,
+    maxLength: 100,
+  },
+  review: {
+    required: true,
+    minLength: 5,
+    maxLength: 500,
+  },
+};
+
 const ReviewForm: React.FC<ReviewFormProps> = ({ isOpen, onClose, onReviewSubmitted }) => {
+  
   const [formData, setFormData] = useState({
     name: '',
     position: '',
@@ -21,19 +48,110 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ isOpen, onClose, onReviewSubmit
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hoveredRating, setHoveredRating] = useState<number | null>(null);
 
+  const [errors, setErrors] = useState<FormErrors>({
+    name: '',
+    position: '',
+    review: '',
+    image: '',
+  });
+
+  const validateField = (name: string, value: string): string => {
+    const rules = VALIDATION_RULES[name as keyof typeof VALIDATION_RULES];
+    if (!rules) return '';
+
+    if (rules.required && !value.trim()) {
+      return `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
+    }
+
+    if ('minLength' in rules && value.trim().length < rules.minLength) {
+      return `${name.charAt(0).toUpperCase() + name.slice(1)} must be at least ${rules.minLength} characters`;
+    }
+
+    if ('maxLength' in rules && value.trim().length > rules.maxLength) {
+      return `${name.charAt(0).toUpperCase() + name.slice(1)} must not exceed ${rules.maxLength} characters`;
+    }
+
+    if ('pattern' in rules && rules.pattern && !rules.pattern.test(value)) {
+      return 'Invalid format';
+    }
+
+    return '';
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+
+    // Update form data
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // Real-time validation
+    const error = validateField(name, value);
+    setErrors(prev => ({
+      ...prev,
+      [name]: error,
+    }));
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {
+      name: validateField('name', formData.name),
+      position: validateField('position', formData.position),
+      review: validateField('review', formData.review),
+      image: '', // Image validation handled separately
+    };
+
+    setErrors(newErrors);
+
+    // Check if there are any errors
+    return !Object.values(newErrors).some(error => error !== '');
+  };
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Validate file size (2MB limit)
+      if (file.size > 2 * 1024 * 1024) {
+        setErrors(prev => ({
+          ...prev,
+          image: 'Image size must not exceed 2MB'
+        }));
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setErrors(prev => ({
+          ...prev,
+          image: 'Please upload an image file'
+        }));
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = () => {
         setFormData({ ...formData, image: reader.result as string });
+        setErrors(prev => ({ ...prev, image: '' }));
       };
       reader.readAsDataURL(file);
     }
   };
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      Swal.fire({
+        title: 'Validation Error',
+        text: 'Please check the form for errors',
+        icon: 'error',
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -104,12 +222,17 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ isOpen, onClose, onReviewSubmit
               </label>
               <input
                 type="text"
-                required
+                name="name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={handleChange}
+                className={`w-full px-3 py-2 text-sm sm:text-base border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.name ? 'border-red-500' : 'border-gray-300'
+                }`}
                 placeholder="Your full name"
               />
+              {errors.name && (
+                <p className="mt-1 text-xs text-red-500">{errors.name}</p>
+              )}
             </div>
 
             <div>
@@ -118,12 +241,17 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ isOpen, onClose, onReviewSubmit
               </label>
               <input
                 type="text"
-                required
+                name="position"
                 value={formData.position}
-                onChange={(e) => setFormData({ ...formData, position: e.target.value })}
-                className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={handleChange}
+                className={`w-full px-3 py-2 text-sm sm:text-base border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.position ? 'border-red-500' : 'border-gray-300'
+                }`}
                 placeholder="Your position and company"
               />
+              {errors.position && (
+                <p className="mt-1 text-xs text-red-500">{errors.position}</p>
+              )}
             </div>
 
             <div>
@@ -157,13 +285,21 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ isOpen, onClose, onReviewSubmit
                 Review *
               </label>
               <textarea
-                required
+                name="review"
                 value={formData.review}
-                onChange={(e) => setFormData({ ...formData, review: e.target.value })}
+                onChange={handleChange}
                 rows={4}
-                className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`w-full px-3 py-2 text-sm sm:text-base border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.review ? 'border-red-500' : 'border-gray-300'
+                }`}
                 placeholder="Share your experience..."
               />
+              {errors.review && (
+                <p className="mt-1 text-xs text-red-500">{errors.review}</p>
+              )}
+              <p className="mt-1 text-xs text-gray-500">
+                {500 - formData.review.length} characters remaining
+              </p>
             </div>
 
             <div>
@@ -174,11 +310,17 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ isOpen, onClose, onReviewSubmit
                 type="file"
                 accept="image/*"
                 onChange={handleImageUpload}
-                className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`w-full px-3 py-2 text-sm sm:text-base border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.image ? 'border-red-500' : 'border-gray-300'
+                }`}
               />
-              <p className="mt-1 text-xs text-gray-500">
-                Recommended: Square image, max 2MB
-              </p>
+              {errors.image ? (
+                <p className="mt-1 text-xs text-red-500">{errors.image}</p>
+              ) : (
+                <p className="mt-1 text-xs text-gray-500">
+                  Recommended: Square image, max 2MB
+                </p>
+              )}
             </div>
           </div>
 

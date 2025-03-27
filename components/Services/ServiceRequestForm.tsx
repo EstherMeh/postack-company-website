@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react";
-
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import Swal from 'sweetalert2';
@@ -21,6 +20,39 @@ interface ServiceRequestFormProps {
   services: Service[]
 }
 
+interface FormErrors {
+  fullName: string;
+  email: string;
+  phone: string;
+  company?: string;
+  serviceType: string;
+  requirements: string;
+  budgetRange: string;
+  timeline: string;
+}
+
+const VALIDATION_RULES = {
+  fullName: {
+    required: true,
+    minLength: 2,
+    maxLength: 50,
+    pattern: /^[a-zA-Z\s'-]+$/,
+  },
+  email: {
+    required: true,
+    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  },
+  phone: {
+    required: true,
+    pattern: /^\+?[\d\s-]{10,}$/,
+  },
+  requirements: {
+    required: true,
+    minLength: 5,
+    maxLength: 1000,
+  },
+};
+
 export default function ServiceRequestForm({ isOpen, onClose, selectedService, services }: ServiceRequestFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -35,6 +67,16 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
     timeline: "",
   })
 
+  const [errors, setErrors] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    serviceType: "",
+    requirements: "",
+    budgetRange: "",
+    timeline: "",
+  });
+
   useEffect(() => {
     // Update service type when selectedService changes
     setFormData((prev) => ({
@@ -43,13 +85,71 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
     }))
   }, [selectedService])
 
+  const validateField = (name: string, value: string): string => {
+    const rules = VALIDATION_RULES[name as keyof typeof VALIDATION_RULES];
+    if (!rules) return '';
+
+    if (rules.required && !value.trim()) {
+      return `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
+    }
+
+    if ('minLength' in rules && value.trim().length < rules.minLength) {
+      return `${name.charAt(0).toUpperCase() + name.slice(1)} must be at least ${rules.minLength} characters`;
+    }
+
+    if ('maxLength' in rules && value.trim().length > rules.maxLength) {
+      return `${name.charAt(0).toUpperCase() + name.slice(1)} must not exceed ${rules.maxLength} characters`;
+    }
+
+    if ('pattern' in rules && rules.pattern && !rules.pattern.test(value)) {
+      switch (name) {
+        case 'email':
+          return 'Please enter a valid email address';
+        case 'phone':
+          return 'Please enter a valid phone number';
+        case 'fullName':
+          return 'Name can only contain letters, spaces, hyphens and apostrophes';
+        default:
+          return 'Invalid format';
+      }
+    }
+
+    return '';
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({
+    const { name, value } = e.target;
+
+    // Update form data
+    setFormData(prev => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+
+    // Real-time validation
+    const error = validateField(name, value);
+    setErrors(prev => ({
+      ...prev,
+      [name]: error,
+    }));
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {
+      fullName: validateField('fullName', formData.fullName),
+      email: validateField('email', formData.email),
+      phone: validateField('phone', formData.phone),
+      serviceType: !formData.serviceType ? 'Please select a service type' : '',
+      requirements: validateField('requirements', formData.requirements),
+      budgetRange: !formData.budgetRange ? 'Please select a budget range' : '',
+      timeline: !formData.timeline ? 'Please select a timeline' : '',
+    };
+
+    setErrors(newErrors);
+
+    // Check if there are any errors
+    return !Object.values(newErrors).some(error => error !== '');
+  };
 
   // Handle form submission to database
   const handleSubmit = async () => {
@@ -80,8 +180,8 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
         const errorData = await response.text();
         console.log("Error submitting form:", errorData ? JSON.parse(errorData) : "No response body");
       }
-    } catch (error) {
-      console.error("Network error:", error);
+    } catch {
+      console.error("Network error");
     }
   };
 
@@ -120,8 +220,8 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
         console.log("Error forwarding email:", errorData ? JSON.parse(errorData) : "No response body");
         alert("Something went wrong. Please try again.");
       }
-    } catch (error) {
-      console.error("Error submitting form:", error);
+    } catch {
+      console.error("Error submitting form.");
       alert("An error occurred while submitting your request.");
     }
   };
@@ -131,10 +231,27 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
   // Handle form submission
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      Swal.fire({
+        title: 'Validation Error',
+        text: 'Please check the form for errors',
+        icon: 'error',
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       await handleSubmit();
       await handleEmailForwarding();
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Failed to submit the form. Please try again.',
+        icon: 'error',
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -163,8 +280,14 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
                 value={formData.fullName}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.fullName ? 'border-red-500' : 'border-gray-300'
+                }`}
+                placeholder="Enter your full name"
               />
+              {errors.fullName && (
+                <p className="mt-1 text-xs text-red-500">{errors.fullName}</p>
+              )}
             </div>
 
             <div>
@@ -178,8 +301,14 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.email ? 'border-red-500' : 'border-gray-300'
+                }`}
+                placeholder="Enter your email address"
               />
+              {errors.email && (
+                <p className="mt-1 text-xs text-red-500">{errors.email}</p>
+              )}
             </div>
 
             <div>
@@ -193,8 +322,14 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
                 value={formData.phone}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.phone ? 'border-red-500' : 'border-gray-300'
+                }`}
+                placeholder="Enter your phone number"
               />
+              {errors.phone && (
+                <p className="mt-1 text-xs text-red-500">{errors.phone}</p>
+              )}
             </div>
 
             <div>
@@ -233,6 +368,7 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
                 </option>
               ))}
             </select>
+            {errors.serviceType && <p className="text-red-500 text-sm">{errors.serviceType}</p>}
           </div>
 
           <div className="mb-6">
@@ -245,10 +381,19 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
               value={formData.requirements}
               onChange={handleChange}
               required
+              maxLength={1000} // Enforce a maximum of 500 characters
               rows={4}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.requirements ? 'border-red-500' : 'border-gray-300'
+              }`}
               placeholder="Please describe your project requirements in detail..."
             ></textarea>
+            <div className="flex justify-between items-center mt-1">
+              {errors.requirements && <p className="text-red-500 text-sm">{errors.requirements}</p>}
+              <p className="text-gray-500 text-xs">
+                {1000 - formData.requirements.length} characters remaining
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -274,6 +419,7 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
                 <option value="50k-100k">K50,000 - K100,000</option>
                 <option value="over-100k">Over K100,000</option>
               </select>
+              {errors.budgetRange && <p className="text-red-500 text-sm">{errors.budgetRange}</p>}
             </div>
 
             <div>
@@ -298,6 +444,7 @@ export default function ServiceRequestForm({ isOpen, onClose, selectedService, s
                 <option value="6-plus-months">6+ months</option>
                 <option value="flexible">Flexible</option>
               </select>
+              {errors.timeline && <p className="text-red-500 text-sm">{errors.timeline}</p>}
             </div>
           </div>
 
