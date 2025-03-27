@@ -49,7 +49,7 @@ POSTACK SOLUTIONS is a technology solutions provider focused on empowering Afric
 
 ## 📸 Screenshots
 
-*Add screenshots of key pages here (Home, Services, About Us, etc.)*
+**
 
 ## 💻 Technologies Used
 
@@ -150,8 +150,6 @@ POSTACK SOLUTIONS is a technology solutions provider focused on empowering Afric
 2. Install dependencies:
    ```bash
    npm install
-   # or
-   yarn install
    ```
 
 3. Set up environment variables:
@@ -262,7 +260,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-Project Lead - [@twitter_handle](https://twitter.com/twitter_handle)
+Project Lead - [@estherMehe](https://twitter.com/estherneh) [@isaac](https://twitter.com/isaac)
 
 Project Link: [https://github.com/EstherMeh/postack-company-website](https://github.com/EstherMeh/postack-company-website)
 
