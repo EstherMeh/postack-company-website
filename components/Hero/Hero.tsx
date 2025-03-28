@@ -181,7 +181,7 @@ const Hero = () => {
             whileHover="hover"
           >
             <motion.video
-              src="/video/anim.mp4"
+              src="/video/animation.mp4"
               autoPlay
               loop
               muted
