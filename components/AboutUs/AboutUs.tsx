@@ -120,7 +120,7 @@ const About = () => {
         </div>
 
         {/* Meet Our Team */}
-        <div className="relative z-10 py-20 text-center bg-gradient-to-r from-gray-200 to-gray-500">
+        <div className="relative z-10 py-20 text-center bg-gray-50">
           <h2 className="text-3xl font-semibold text-blue-950 mb-12">Meet Our Team</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-8 max-w-7xl mx-auto">
             {teamMembers.map((member, index) => (
