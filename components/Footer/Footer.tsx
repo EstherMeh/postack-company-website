@@ -6,7 +6,7 @@ import { PiTiktokLogo } from "react-icons/pi";
 
 const Footer = () => {
   return (
-    <footer className="footer bg-gradient-to-r from-gray-50 to-gray-200 text-blue-950 p-10">
+    <footer className="footer bg-gray-50 text-blue-800 p-10">
         <nav>
             <h6 className="footer-title">Services</h6>
             <a href="#hosting" className="link link-hover">Hosting Solutions</a>
