@@ -87,7 +87,7 @@ const Hero = () => {
             variants={containerVariants}
           >
             <motion.h1 
-              className="mb-5 text-4xl md:text-5xl lg:text-6xl font-bold text-blue-950"
+              className="mb-5 text-4xl md:text-5xl lg:text-6xl font-bold text-blue-800"
               variants={textVariants}
             >
               <motion.span
@@ -124,11 +124,7 @@ const Hero = () => {
               className="mb-5 text-base md:text-lg lg:text-xl text-blue-900"
               variants={textVariants}
             >
-              Postack Solutions delivers innovative digital services, 
-              including seamless grocery delivery through the Postack Delivery mobile app and 
-              website, cutting-edge web and application development, and reliable server hosting 
-              and management. We empower businesses and individuals with technology-driven solutions 
-              designed for efficiency and growth.
+              Postack Solutions powers businesses and individuals with smart, technology-driven services. From seamless grocery delivery to expert web development and reliable server hosting. Simplify, grow, and thrive with Postack.
             </motion.p>
             
             <motion.div 
