@@ -70,21 +70,6 @@ const Hero = () => {
     }
   }
 
-  const gradientVariants = {
-    animate: {
-      background: [
-        "linear-gradient(to right, #f3f4f6, #9ca3af)",
-        "linear-gradient(to right, #e5e7eb, #6b7280)",
-        "linear-gradient(to right, #f3f4f6, #9ca3af)"
-      ],
-      transition: {
-        duration: 5,
-        repeat: Infinity,
-        repeatType: "reverse" as const
-      }
-    }
-  }
-
   return (
     <motion.div
       initial="hidden"
@@ -93,9 +78,7 @@ const Hero = () => {
       className="pt-16 md:pt-0"
     >
       <motion.div
-        className="hero min-h-[100dvh] bg-gradient-to-r from-gray-50 to-gray-400"
-        animate="animate"
-        variants={gradientVariants}
+        className="hero min-h-[100dvh] bg-white"
       >
         <div className="hero-overlay bg-opacity-0"></div>
         <div className="hero-content text-neutral-content text-left flex flex-col lg:flex-row items-center lg:items-start justify-start w-full px-4 md:px-8 pt-8 md:pt-16">
