@@ -18,8 +18,8 @@ const ContactForm: NextPage = () => {
   });
 
   const [isClient, setIsClient] = useState(false); // State to handle client-side rendering
-  const [loading, setLoading] = useState(false); // ✅ Define setLoading
-  const [error, setError] = useState<string | null>(null); // ✅ Define setError
+  const [loading, setLoading] = useState(false); //  Define setLoading
+  const [error, setError] = useState<string | null>(null); // Define setError
 
   useEffect(() => {
     setIsClient(true); // Ensure this only runs client-side
@@ -95,7 +95,7 @@ const ContactForm: NextPage = () => {
   }
 
   return (
-    <div className="bg-blue-100 min-h-screen flex justify-center items-center" id="contactus">
+    <div className="bg-white-100 min-h-screen flex justify-center items-center" id="contactus">
       <div className="max-w-5xl mx-auto px-6 py-12">
         <h2 className="text-3xl font-bold text-center mb-8">Get in Touch</h2>
         <div className="grid md:grid-cols-3 gap-8">
