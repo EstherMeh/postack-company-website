@@ -88,7 +88,7 @@ const HomePage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Learn more about POSTACK SOLUTIONS, our team, mission, and values." />
         <meta name="keywords" content="web hosting,cloud services website development, postack Solutions, secure hosting, scalable servers" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/Postack_logo.jpeg" />
       </Head>
 
       <div className="overflow-hidden">

@@ -6,7 +6,7 @@ import { PiTiktokLogo } from "react-icons/pi";
 
 const Footer = () => {
   return (
-    <footer className="footer bg-gradient-to-r from-gray-50 to-gray-200 text-blue-950 p-10">
+    <footer className="footer bg-gray-50 text-blue-800 p-10">
         <nav>
             <h6 className="footer-title">Services</h6>
             <a href="#hosting" className="link link-hover">Hosting Solutions</a>
@@ -35,7 +35,7 @@ const Footer = () => {
             <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
         </aside>
         <div className="flex justify-center md:justify-end gap-4">
-            <a href="https://www.facebook.com/postackDelivary" aria-label="Facebook">
+            <a href="https://www.facebook.com/postackDelivary" target='_blank' aria-label="Facebook">
               <FaFacebook className="h-6 w-6" />
             </a>
             <a href="https://x.com/POSTACKSOL41612" target='_blank' aria-label="X.com">

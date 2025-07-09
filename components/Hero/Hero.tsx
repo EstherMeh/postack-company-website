@@ -70,40 +70,24 @@ const Hero = () => {
     }
   }
 
-  const gradientVariants = {
-    animate: {
-      background: [
-        "linear-gradient(to right, #f3f4f6, #9ca3af)",
-        "linear-gradient(to right, #e5e7eb, #6b7280)",
-        "linear-gradient(to right, #f3f4f6, #9ca3af)"
-      ],
-      transition: {
-        duration: 5,
-        repeat: Infinity,
-        repeatType: "reverse" as const
-      }
-    }
-  }
-
   return (
     <motion.div
       initial="hidden"
       animate="visible"
       variants={containerVariants}
+      className="pt-16 md:pt-0"
     >
       <motion.div
-        className="hero min-h-screen bg-gradient-to-r from-gray-50 to-gray-400"
-        animate="animate"
-        variants={gradientVariants}
+        className="hero min-h-[100dvh] bg-white"
       >
         <div className="hero-overlay bg-opacity-0"></div>
-          <div className="hero-content text-neutral-content text-left flex items-start justify-start w-full">
+        <div className="hero-content text-neutral-content text-left flex flex-col lg:flex-row items-center lg:items-start justify-start w-full px-4 md:px-8 pt-8 md:pt-16">
           <motion.div 
-            className="max-w-3xl pl-8"
+            className="max-w-3xl lg:pl-8"
             variants={containerVariants}
           >
             <motion.h1 
-              className="mb-5 text-6xl font-bold text-blue-950"
+              className="mb-5 text-4xl md:text-5xl lg:text-6xl font-bold text-blue-800"
               variants={textVariants}
             >
               <motion.span
@@ -137,23 +121,19 @@ const Hero = () => {
             </motion.h1>
             
             <motion.p 
-              className="mb-5 text-xl text-blue-900"
+              className="mb-5 text-base md:text-lg lg:text-xl text-blue-900"
               variants={textVariants}
             >
-              Postack Solutions delivers innovative digital services, 
-              including seamless grocery delivery through the Postack Delivery mobile app and 
-              website, cutting-edge web and application development, and reliable server hosting 
-              and management. We empower businesses and individuals with technology-driven solutions 
-              designed for efficiency and growth.
+              Postack Solutions powers businesses and individuals with smart, technology-driven services. From seamless grocery delivery to expert web development and reliable server hosting. Simplify, grow, and thrive with Postack.
             </motion.p>
             
             <motion.div 
-              className="flex space-x-4"
+              className="flex flex-col sm:flex-row gap-4 sm:space-x-4 mb-8 lg:mb-0"
               variants={containerVariants}
             >
-              <Link href="#services">
+              <Link href="#services" className="w-full sm:w-auto">
                 <motion.button 
-                  className="px-4 py-2 btn btn-primary text-white hover:bg-blue-700 transition-all duration-300"
+                  className="w-full sm:w-auto px-4 py-2 btn btn-primary text-white hover:bg-blue-700 transition-all duration-300"
                   variants={buttonVariants}
                   whileHover="hover"
                   whileTap="tap"
@@ -161,9 +141,9 @@ const Hero = () => {
                   Get started
                 </motion.button>
               </Link>
-              <Link href="https://www.f6s.com/postack-solutions" target="_blank">
+              <Link href="https://www.f6s.com/postack-solutions" target="_blank" className="w-full sm:w-auto">
                 <motion.button 
-                  className="px-4 py-2 btn btn-neutral text-white hover:bg-blue-700 transition-all duration-300"
+                  className="w-full sm:w-auto px-4 py-2 btn btn-neutral text-white hover:bg-blue-700 transition-all duration-300"
                   variants={buttonVariants}
                   whileHover="hover"
                   whileTap="tap"
@@ -175,16 +155,16 @@ const Hero = () => {
           </motion.div>
           
           <motion.div 
-            className="ml-auto pr-8"
+            className="w-full lg:w-auto lg:ml-auto lg:pr-8 mt-8 lg:mt-0"
             variants={videoVariants}
             whileHover="hover"
           >
             <motion.video
-              src="/video/anim.mp4"
+              src="/video/animation.mp4"
               autoPlay
               loop
               muted
-              className="w-96 h-96 rounded-full object-cover shadow-lg"
+              className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full object-cover shadow-lg mx-auto"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 1 }}
