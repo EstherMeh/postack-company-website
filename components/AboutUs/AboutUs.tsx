@@ -79,7 +79,7 @@ const About = () => {
               Our Vision
             </h2>
             <p className="text-gray-800 text-sm sm:text-base text-center">
-              To become Africa's leading technology solutions provider, setting the standard for digital excellence and innovation.
+              To become Africa&apos;s leading technology solutions provider, setting the standard for digital excellence and innovation.
             </p>
           </div>
         </div>
